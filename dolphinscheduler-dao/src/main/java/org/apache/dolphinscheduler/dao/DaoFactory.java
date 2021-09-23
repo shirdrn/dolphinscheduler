@@ -22,9 +22,6 @@ import org.slf4j.LoggerFactory;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-/**
- * dao factory
- */
 public class DaoFactory {
 
   private static final Logger logger = LoggerFactory.getLogger(DaoFactory.class);
@@ -35,12 +32,6 @@ public class DaoFactory {
 
   }
 
-  /**
-   * get dao instance
-   * @param clazz clazz
-   * @param <T> T
-   * @return T object
-   */
   @SuppressWarnings("unchecked")
   public static <T extends AbstractBaseDao> T getDaoInstance(Class<T> clazz) {
     String className = clazz.getName();

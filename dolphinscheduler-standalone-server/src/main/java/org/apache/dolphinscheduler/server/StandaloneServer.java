@@ -26,8 +26,8 @@ import org.apache.dolphinscheduler.alert.AlertServer;
 import org.apache.dolphinscheduler.api.ApiApplicationServer;
 import org.apache.dolphinscheduler.common.utils.ScriptRunner;
 import org.apache.dolphinscheduler.dao.datasource.ConnectionFactory;
-import org.apache.dolphinscheduler.server.master.MasterServer;
-import org.apache.dolphinscheduler.server.worker.WorkerServer;
+import org.apache.dolphinscheduler.master.MasterServer;
+import org.apache.dolphinscheduler.worker.WorkerServer;
 
 import org.apache.curator.test.TestingServer;
 

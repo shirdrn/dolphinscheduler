@@ -21,45 +21,17 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.util.Date;
 
-/**
- * server
- */
 public class Server {
 
-    /**
-     * id
-     */
     private int id;
-
-    /**
-     * host
-     */
     private String host;
-
-    /**
-     * port
-     */
     private int port;
-
-    /**
-     * master directory in zookeeper
-     */
+    /** master directory in zookeeper */
     private String zkDirectory;
-
-    /**
-     * resource info: CPU and memory
-     */
+    /** resource info: CPU and memory */
     private String resInfo;
-
-    /**
-     * create time
-     */
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
     private Date createTime;
-
-    /**
-     * laster heart beat time
-     */
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
     private Date lastHeartbeatTime;
 

@@ -23,7 +23,7 @@ import org.apache.dolphinscheduler.common.Constants;
 import org.apache.dolphinscheduler.common.enums.ExecutionStatus;
 import org.apache.dolphinscheduler.common.enums.ResUploadType;
 import org.apache.dolphinscheduler.common.enums.ResourceType;
-import org.apache.dolphinscheduler.common.exception.BaseException;
+import org.apache.dolphinscheduler.common.BaseException;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;

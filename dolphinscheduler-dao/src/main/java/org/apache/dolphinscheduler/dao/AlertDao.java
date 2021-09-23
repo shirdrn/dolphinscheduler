@@ -68,24 +68,10 @@ public class AlertDao extends AbstractBaseDao {
         alertGroupMapper = ConnectionFactory.getInstance().getMapper(AlertGroupMapper.class);
     }
 
-    /**
-     * insert alert
-     *
-     * @param alert alert
-     * @return add alert result
-     */
     public int addAlert(Alert alert) {
         return alertMapper.insert(alert);
     }
 
-    /**
-     * update alert
-     *
-     * @param alertStatus alertStatus
-     * @param log log
-     * @param id id
-     * @return update alert result
-     */
     public int updateAlert(AlertStatus alertStatus, String log, int id) {
         Alert alert = alertMapper.selectById(id);
         alert.setAlertStatus(alertStatus);
@@ -94,13 +80,6 @@ public class AlertDao extends AbstractBaseDao {
         return alertMapper.updateById(alert);
     }
 
-    /**
-     * MasterServer or WorkerServer stoped
-     *
-     * @param alertGroupId alertGroupId
-     * @param host host
-     * @param serverType serverType
-     */
     public void sendServerStopedAlert(int alertGroupId, String host, String serverType) {
         ServerAlertContent serverStopAlertContent = ServerAlertContent.newBuilder().
                 type(serverType)
@@ -121,12 +100,6 @@ public class AlertDao extends AbstractBaseDao {
         alertMapper.insertAlertWhenServerCrash(alert);
     }
 
-    /**
-     * process time out alert
-     *
-     * @param processInstance processInstance
-     * @param processDefinition processDefinition
-     */
     public void sendProcessTimeoutAlert(ProcessInstance processInstance, ProcessDefinition processDefinition) {
         int alertGroupId = processInstance.getWarningGroupId();
         Alert alert = new Alert();
@@ -151,15 +124,6 @@ public class AlertDao extends AbstractBaseDao {
         alertMapper.insert(alert);
     }
 
-    /**
-     * task timeout warn
-     *
-     * @param alertGroupId alertGroupId
-     * @param processInstanceId processInstanceId
-     * @param processInstanceName processInstanceName
-     * @param taskId taskId
-     * @param taskName taskName
-     */
     public void sendTaskTimeoutAlert(int alertGroupId, int processInstanceId,
                                      String processInstanceName, int taskId, String taskName) {
         Alert alert = new Alert();
@@ -178,30 +142,14 @@ public class AlertDao extends AbstractBaseDao {
         saveTaskTimeoutAlert(alert, content, alertGroupId);
     }
 
-    /**
-     * list the alert information of waiting to be executed
-     *
-     * @return alert list
-     */
     public List<Alert> listWaitExecutionAlert() {
         return alertMapper.listAlertByStatus(AlertStatus.WAIT_EXECUTION);
     }
 
-    /**
-     * for test
-     *
-     * @return AlertMapper
-     */
     public AlertMapper getAlertMapper() {
         return alertMapper;
     }
 
-    /**
-     * list all alert plugin instance by alert group id
-     *
-     * @param alertGroupId alert group id
-     * @return AlertPluginInstance list
-     */
     public List<AlertPluginInstance> listInstanceByAlertGroupId(int alertGroupId) {
         String alertInstanceIdsParam = alertGroupMapper.queryAlertGroupInstanceIdsById(alertGroupId);
         if (StringUtils.isNotBlank(alertInstanceIdsParam)) {

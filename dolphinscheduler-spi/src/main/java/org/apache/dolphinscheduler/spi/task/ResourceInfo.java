@@ -17,18 +17,10 @@
 
 package org.apache.dolphinscheduler.spi.task;
 
-/**
- * resource info
- */
 public class ResourceInfo {
-    /**
-     * res the name of the resource that was uploaded
-     */
+
     private int id;
-
     private String resourceName;
-
-
     private String res;
 
     public int getId() {

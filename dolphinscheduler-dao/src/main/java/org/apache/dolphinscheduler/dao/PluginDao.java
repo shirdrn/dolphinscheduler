@@ -44,30 +44,14 @@ public class PluginDao extends AbstractBaseDao {
         pluginDefineMapper = ConnectionFactory.getInstance().getMapper(PluginDefineMapper.class);
     }
 
-    /**
-     * check plugin define table exist
-     *
-     * @return boolean
-     */
     public boolean checkPluginDefineTableExist() {
         return pluginDefineMapper.checkTableExist() > 0;
     }
 
-    /**
-     * add pluginDefine
-     *
-     * @param pluginDefine plugin define entiy
-     * @return plugin define id
-     */
     public int addPluginDefine(PluginDefine pluginDefine) {
         return pluginDefineMapper.insert(pluginDefine);
     }
 
-    /**
-     * add or update plugin define
-     *
-     * @param pluginDefine new pluginDefine
-     */
     public int addOrUpdatePluginDefine(PluginDefine pluginDefine) {
         requireNonNull(pluginDefine, "pluginDefine is null");
         requireNonNull(pluginDefine.getPluginName(), "pluginName is null");
@@ -86,12 +70,6 @@ public class PluginDao extends AbstractBaseDao {
         return currPluginDefine.getId();
     }
 
-    /**
-     * query plugin define by id
-     *
-     * @param pluginDefineId plugin define id
-     * @return PluginDefine
-     */
     public PluginDefine getPluginDefineById(int pluginDefineId) {
         return pluginDefineMapper.selectById(pluginDefineId);
     }

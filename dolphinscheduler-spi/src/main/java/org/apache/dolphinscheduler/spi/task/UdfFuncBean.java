@@ -25,52 +25,16 @@ import java.io.IOException;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.KeyDeserializer;
 
-/**
- * udf function
- */
 public class UdfFuncBean {
-    /**
-     * id
-     */
+
     private int id;
-    /**
-     * user id
-     */
     private int userId;
-
-    /**
-     * udf function name
-     */
     private String funcName;
-
-    /**
-     * udf class name
-     */
     private String className;
-
-    /**
-     * udf argument types
-     */
     private String argTypes;
-
-    /**
-     * udf data base
-     */
     private String database;
-
-    /**
-     * udf description
-     */
     private String description;
-
-    /**
-     * resource id
-     */
     private int resourceId;
-
-    /**
-     * resource name
-     */
     private String resourceName;
 
     public int getId() {

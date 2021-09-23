@@ -30,25 +30,15 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-
-/**
- * database state dao
- */
 @Component
 public class MonitorDBDao {
 
     private static Logger logger = LoggerFactory.getLogger(MonitorDBDao.class);
-
     public static final String VARIABLE_NAME = "variable_name";
 
     @Autowired
     private DruidDataSource dataSource;
 
-
-    /**
-     * get current db performance
-     * @return MonitorRecord
-     */
     public MonitorRecord getCurrentDbPerformance(){
         MonitorRecord monitorRecord = null;
         Connection conn = null;
@@ -68,10 +58,6 @@ public class MonitorDBDao {
         return monitorRecord;
     }
 
-    /**
-     * query database state
-     * @return MonitorRecord list
-     */
     public List<MonitorRecord> queryDatabaseState() {
         List<MonitorRecord> list = new ArrayList<>(1);
 

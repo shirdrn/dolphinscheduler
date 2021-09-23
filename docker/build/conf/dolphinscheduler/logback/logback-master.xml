@@ -30,13 +30,13 @@
     </appender>
 
     <conversionRule conversionWord="messsage"
-                    converterClass="org.apache.dolphinscheduler.server.log.SensitiveDataConverter"/>
+                    converterClass="SensitiveDataConverter"/>
     <appender name="TASKLOGFILE" class="ch.qos.logback.classic.sift.SiftingAppender">
         <!-- <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
             <level>INFO</level>
         </filter> -->
-        <filter class="org.apache.dolphinscheduler.server.log.TaskLogFilter"/>
-        <Discriminator class="org.apache.dolphinscheduler.server.log.TaskLogDiscriminator">
+        <filter class="TaskLogFilter"/>
+        <Discriminator class="TaskLogDiscriminator">
             <key>taskAppId</key>
             <logBase>${log.base}</logBase>
         </Discriminator>
@@ -56,7 +56,7 @@
     <!-- master server logback config start -->
     <appender name="MASTERLOGFILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>${log.base}/dolphinscheduler-master.log</file>
-        <!--<filter class="org.apache.dolphinscheduler.server.log.MasterLogFilter">
+        <!--<filter class="MasterLogFilter">
             <level>INFO</level>
         </filter>-->
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">

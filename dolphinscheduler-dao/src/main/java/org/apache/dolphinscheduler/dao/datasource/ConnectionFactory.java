@@ -62,14 +62,8 @@ public class ConnectionFactory extends SpringConnectionFactory {
         }
     }
 
-    /**
-     * sql session factory
-     */
     private SqlSessionFactory sqlSessionFactory;
 
-    /**
-     * sql session template
-     */
     private SqlSessionTemplate sqlSessionTemplate;
 
     private DataSource dataSource;
@@ -78,23 +72,12 @@ public class ConnectionFactory extends SpringConnectionFactory {
         return dataSource;
     }
 
-    /**
-     * get the data source
-     *
-     * @return druid dataSource
-     */
     private DataSource buildDataSource() throws SQLException {
 
         DruidDataSource druidDataSource = dataSource();
         return druidDataSource;
     }
 
-    /**
-     * * get sql session factory
-     *
-     * @return sqlSessionFactory
-     * @throws Exception sqlSessionFactory exception
-     */
     private SqlSessionFactory getSqlSessionFactory() throws Exception {
         TransactionFactory transactionFactory = new JdbcTransactionFactory();
 
@@ -121,22 +104,10 @@ public class ConnectionFactory extends SpringConnectionFactory {
         return sqlSessionTemplate;
     }
 
-    /**
-     * get sql session
-     *
-     * @return sqlSession
-     */
     public SqlSession getSqlSession() {
         return sqlSessionTemplate;
     }
 
-    /**
-     * get mapper
-     *
-     * @param type target class
-     * @param <T>  generic
-     * @return target object
-     */
     public <T> T getMapper(Class<T> type) {
         try {
             return getSqlSession().getMapper(type);
