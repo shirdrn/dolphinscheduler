@@ -24,9 +24,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 
-/**
- * zookeeper conf
- */
 @Component
 @PropertySource("classpath:config/install_config.conf")
 public class RunConfig {

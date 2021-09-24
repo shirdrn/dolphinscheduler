@@ -30,22 +30,11 @@ import org.springframework.stereotype.Component;
 
 import java.util.Map;
 
-/**
- * Retry Report Task Status Thread
- */
 @Component
 public class RetryReportTaskStatusThread implements Runnable {
 
     private final Logger logger = LoggerFactory.getLogger(RetryReportTaskStatusThread.class);
-
-    /**
-     * every 5 minutes
-     */
     private static long RETRY_REPORT_TASK_STATUS_INTERVAL = 5 * 60 * 1000L;
-
-    /**
-     *  task callback service
-     */
     private final TaskCallbackService taskCallbackService;
 
     public void start(){
@@ -58,15 +47,10 @@ public class RetryReportTaskStatusThread implements Runnable {
         this.taskCallbackService = SpringApplicationContext.getBean(TaskCallbackService.class);
     }
 
-    /**
-     * retry ack/response
-     */
     @Override
     public void run() {
         ResponceCache responceCache = ResponceCache.get();
-
         while (Stopper.isRunning()){
-
             // sleep 5 minutes
             ThreadUtils.sleep(RETRY_REPORT_TASK_STATUS_INTERVAL);
 

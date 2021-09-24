@@ -91,115 +91,37 @@ import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Table;
 
-/**
- * master exec thread,split dag
- */
 public class WorkflowExecuteThread implements Runnable {
 
-    /**
-     * logger of WorkflowExecuteThread
-     */
     private static final Logger logger = LoggerFactory.getLogger(WorkflowExecuteThread.class);
-    /**
-     * runing TaskNode
-     */
     private final Map<Integer, ITaskProcessor> activeTaskProcessorMaps = new ConcurrentHashMap<>();
-    /**
-     * task exec service
-     */
     private final ExecutorService taskExecService;
-    /**
-     * process instance
-     */
     private ProcessInstance processInstance;
-    /**
-     * submit failure nodes
-     */
     private boolean taskFailedSubmit = false;
 
-    /**
-     * recover node id list
-     */
     private List<TaskInstance> recoverNodeIdList = new ArrayList<>();
-
-    /**
-     * error task list
-     */
     private Map<String, TaskInstance> errorTaskList = new ConcurrentHashMap<>();
-
-    /**
-     * complete task list
-     */
     private Map<String, TaskInstance> completeTaskList = new ConcurrentHashMap<>();
-
-    /**
-     * ready to submit task queue
-     */
     private PeerTaskInstancePriorityQueue readyToSubmitTaskQueue = new PeerTaskInstancePriorityQueue();
-
-    /**
-     * depend failed task map
-     */
     private Map<String, TaskInstance> dependFailedTask = new ConcurrentHashMap<>();
-
-    /**
-     * forbidden task map
-     */
     private Map<String, TaskNode> forbiddenTaskList = new ConcurrentHashMap<>();
-
-    /**
-     * skip task map
-     */
     private Map<String, TaskNode> skipTaskNodeList = new ConcurrentHashMap<>();
-
-    /**
-     * recover tolerance fault task list
-     */
     private List<TaskInstance> recoverToleranceFaultTaskList = new ArrayList<>();
 
-    /**
-     * alert manager
-     */
     private ProcessAlertManager processAlertManager;
-
-    /**
-     * the object of DAG
-     */
     private DAG<String, TaskNode, TaskNodeRelation> dag;
-
-    /**
-     * process service
-     */
     private ProcessService processService;
-
-    /**
-     * master config
-     */
     private MasterConfig masterConfig;
-
-    /**
-     *
-     */
     private NettyExecutorManager nettyExecutorManager;
 
     private ConcurrentLinkedQueue<StateEvent> stateEvents = new ConcurrentLinkedQueue<>();
-
     private List<Date> complementListDate = Lists.newLinkedList();
 
     private Table<Integer, Long, TaskInstance> taskInstanceHashMap = HashBasedTable.create();
     private ProcessDefinition processDefinition;
     private String key;
-
     private ConcurrentHashMap<Integer, TaskInstance> taskTimeoutCheckList;
 
-    /**
-     * constructor of WorkflowExecuteThread
-     *
-     * @param processInstance processInstance
-     * @param processService processService
-     * @param nettyExecutorManager nettyExecutorManager
-     * @param taskTimeoutCheckList
-     */
     public WorkflowExecuteThread(ProcessInstance processInstance
             , ProcessService processService
             , NettyExecutorManager nettyExecutorManager
@@ -304,7 +226,6 @@ public class WorkflowExecuteThread implements Runnable {
     }
 
     private boolean taskTimeout(StateEvent stateEvent) {
-
         if (taskInstanceHashMap.containsRow(stateEvent.getTaskInstanceId())) {
             return true;
         }
@@ -467,9 +388,6 @@ public class WorkflowExecuteThread implements Runnable {
         }
     }
 
-    /**
-     * process end handle
-     */
     private void endProcess() {
         this.stateEvents.clear();
         processInstance.setEndTime(new Date());
@@ -482,11 +400,6 @@ public class WorkflowExecuteThread implements Runnable {
         processAlertManager.sendAlertProcessInstance(processInstance, taskInstances, projectUser);
     }
 
-    /**
-     * generate process dag
-     *
-     * @throws Exception exception
-     */
     private void buildFlowDag() throws Exception {
         if (this.dag != null) {
             return;
@@ -515,11 +428,7 @@ public class WorkflowExecuteThread implements Runnable {
         dag = DagHelper.buildDagGraph(processDag);
     }
 
-    /**
-     * init task queue
-     */
     private void initTaskQueue() {
-
         taskFailedSubmit = false;
         activeTaskProcessorMaps.clear();
         dependFailedTask.clear();
@@ -555,12 +464,6 @@ public class WorkflowExecuteThread implements Runnable {
 
     }
 
-    /**
-     * submit task to execute
-     *
-     * @param taskInstance task instance
-     * @return TaskInstance
-     */
     private TaskInstance submitTaskExec(TaskInstance taskInstance) {
         try {
             ITaskProcessor taskProcessor = TaskProcessorFactory.getTaskProcessor(taskInstance.getTaskType());
@@ -616,7 +519,6 @@ public class WorkflowExecuteThread implements Runnable {
     }
 
     private void addTimeoutCheck(TaskInstance taskInstance) {
-
         TaskDefinition taskDefinition = processService.findTaskDefinition(
                 taskInstance.getTaskCode(),
                 taskInstance.getTaskDefinitionVersion()
@@ -631,14 +533,6 @@ public class WorkflowExecuteThread implements Runnable {
         }
     }
 
-    /**
-     * find task instance in db.
-     * in case submit more than one same name task in the same time.
-     *
-     * @param taskCode task code
-     * @param taskVersion task version
-     * @return TaskInstance
-     */
     private TaskInstance findTaskIfExists(Long taskCode, int taskVersion) {
         List<TaskInstance> taskInstanceList = processService.findValidTaskListByProcessId(this.processInstance.getId());
         for (TaskInstance taskInstance : taskInstanceList) {
@@ -649,13 +543,6 @@ public class WorkflowExecuteThread implements Runnable {
         return null;
     }
 
-    /**
-     * encapsulation task
-     *
-     * @param processInstance process instance
-     * @param taskNode taskNode
-     * @return TaskInstance
-     */
     private TaskInstance createTaskInstance(ProcessInstance processInstance, TaskNode taskNode) {
         TaskInstance taskInstance = findTaskIfExists(taskNode.getCode(), taskNode.getVersion());
         if (taskInstance == null) {
@@ -813,13 +700,7 @@ public class WorkflowExecuteThread implements Runnable {
         updateProcessInstanceState();
     }
 
-    /**
-     * determine whether the dependencies of the task node are complete
-     *
-     * @return DependResult
-     */
     private DependResult isTaskDepsComplete(String taskName) {
-
         Collection<String> startNodes = dag.getBeginNode();
         // if vertex,returns true directly
         if (startNodes.contains(taskName)) {
@@ -853,9 +734,6 @@ public class WorkflowExecuteThread implements Runnable {
         return DependResult.SUCCESS;
     }
 
-    /**
-     * depend node is completed, but here need check the condition task branch is the next node
-     */
     private boolean dependTaskSuccess(String dependNodeName, String nextNodeName) {
         if (dag.getNode(dependNodeName).isConditionsTask()) {
             //condition task need check the branch to run

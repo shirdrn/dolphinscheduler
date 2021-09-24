@@ -16,18 +16,7 @@
  */
 package org.apache.dolphinscheduler.monitor;
 
-/**
- * server monitor and auto restart server
- */
 public interface Monitor {
 
-    /**
-     * monitor server and restart
-     *
-     * @param masterPath masterPath
-     * @param workerPath workerPath
-     * @param port port
-     * @param installPath installPath
-     */
     void monitor(String masterPath, String workerPath, Integer port, String installPath);
 }

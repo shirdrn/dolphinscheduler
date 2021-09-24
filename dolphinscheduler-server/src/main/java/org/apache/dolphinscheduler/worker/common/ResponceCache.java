@@ -23,9 +23,6 @@ import org.apache.dolphinscheduler.remote.command.Command;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-/**
- * Responce Cache : cache worker send master result
- */
 public class ResponceCache {
 
     private static final ResponceCache instance = new ResponceCache();

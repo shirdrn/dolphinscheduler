@@ -36,9 +36,6 @@ public class LogUtils {
         throw new IllegalStateException("Utility class");
     }
 
-    /**
-     * get task log path
-     */
     public static String getTaskLogPath(Long processDefineCode, int processDefineVersion, int processInstanceId, int taskInstanceId) {
         // Optional.map will be skipped if null
         return Optional.of(LoggerFactory.getILoggerFactory())
@@ -55,9 +52,6 @@ public class LogUtils {
                 .orElse("");
     }
 
-    /**
-     * get task log path by TaskExecutionContext
-     */
     public static String getTaskLogPath(TaskExecutionContext taskExecutionContext) {
         return getTaskLogPath(taskExecutionContext.getProcessDefineCode(),
                 taskExecutionContext.getProcessDefineVersion(),
