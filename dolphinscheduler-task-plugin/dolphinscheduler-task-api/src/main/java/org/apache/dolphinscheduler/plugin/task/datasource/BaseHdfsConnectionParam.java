@@ -18,6 +18,7 @@
 package org.apache.dolphinscheduler.plugin.task.datasource;
 
 public class BaseHdfsConnectionParam extends BaseConnectionParam {
+
     protected String principal;
     protected String javaSecurityKrb5Conf;
     protected String loginUserKeytabUsername;

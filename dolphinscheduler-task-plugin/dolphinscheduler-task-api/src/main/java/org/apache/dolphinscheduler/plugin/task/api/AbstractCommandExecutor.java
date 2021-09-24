@@ -50,46 +50,18 @@ import org.slf4j.Logger;
 
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 
-/**
- * abstract command executor
- */
 public abstract class AbstractCommandExecutor {
-    /**
-     * rules for extracting application ID
-     */
+
+    /** Regex expr for extracting application ID */
     protected static final Pattern APPLICATION_REGEX = Pattern.compile(TaskConstants.APPLICATION_REGEX);
-
     protected StringBuilder varPool = new StringBuilder();
-    /**
-     * process
-     */
     private Process process;
-
-    /**
-     * log handler
-     */
     protected Consumer<List<String>> logHandler;
-
-    /**
-     * logger
-     */
     protected Logger logger;
-
-    /**
-     * log list
-     */
     protected List<String> logBuffer;
-
     protected boolean logOutputIsSuccess = false;
-
-    /*
-     * SHELL result string
-     */
+    /** SHELL result string */
     protected String taskResultString;
-
-    /**
-     * taskRequest
-     */
     protected TaskRequest taskRequest;
 
     public AbstractCommandExecutor(Consumer<List<String>> logHandler,
@@ -105,12 +77,6 @@ public abstract class AbstractCommandExecutor {
         this.logBuffer = logBuffer;
     }
 
-    /**
-     * build process
-     *
-     * @param commandFile command file
-     * @throws IOException IO Exception
-     */
     private void buildProcess(String commandFile) throws IOException {
         // setting up user to run commands
         List<String> command = new LinkedList<>();
@@ -207,11 +173,6 @@ public abstract class AbstractCommandExecutor {
         return varPool.toString();
     }
 
-    /**
-     * cancel application
-     *
-     * @throws Exception exception
-     */
     public void cancelApplication() throws Exception {
         if (process == null) {
             return;
@@ -221,29 +182,18 @@ public abstract class AbstractCommandExecutor {
         clear();
 
         int processId = getProcessId(process);
-
         logger.info("cancel process: {}", processId);
 
         // kill , waiting for completion
         boolean killed = softKill(processId);
-
         if (!killed) {
             // hard kill
             hardKill(processId);
-
-            // destory
             process.destroy();
-
             process = null;
         }
     }
 
-    /**
-     * soft kill
-     *
-     * @param processId process id
-     * @return process is alive
-     */
     private boolean softKill(int processId) {
 
         if (processId != 0 && process.isAlive()) {
@@ -258,15 +208,9 @@ public abstract class AbstractCommandExecutor {
                 logger.info("kill attempt failed", e);
             }
         }
-
         return process.isAlive();
     }
 
-    /**
-     * hard kill
-     *
-     * @param processId process id
-     */
     private void hardKill(int processId) {
         if (processId != 0 && process.isAlive()) {
             try {
@@ -285,14 +229,9 @@ public abstract class AbstractCommandExecutor {
         logger.info("task run command: {}", String.join(" ", commands));
     }
 
-    /**
-     * clear
-     */
     private void clear() {
-
         List<String> markerList = new ArrayList<>();
         markerList.add(ch.qos.logback.classic.ClassicConstants.FINALIZE_SESSION_MARKER.toString());
-
         if (!logBuffer.isEmpty()) {
             // log handle
             logHandler.accept(logBuffer);
@@ -301,11 +240,6 @@ public abstract class AbstractCommandExecutor {
         logHandler.accept(markerList);
     }
 
-    /**
-     * get the standard output of the process
-     *
-     * @param process process
-     */
     private void parseProcessOutput(Process process) {
         String threadLoggerInfoName = String.format(LoggerUtils.TASK_LOGGER_THREAD_NAME + "-%s", taskRequest.getTaskAppId());
         ExecutorService getOutputLogService = newDaemonSingleThreadExecutor(threadLoggerInfoName + "-" + "getOutputLogService");
@@ -352,12 +286,6 @@ public abstract class AbstractCommandExecutor {
         parseProcessOutputExecutorService.shutdown();
     }
 
-    /**
-     * get app links
-     *
-     * @param logPath log path
-     * @return app id list
-     */
     private List<String> getAppIds(String logPath) {
         List<String> logs = convertFile2List(logPath);
 
@@ -375,12 +303,6 @@ public abstract class AbstractCommandExecutor {
         return appIds;
     }
 
-    /**
-     * convert file to list
-     *
-     * @param filename file name
-     * @return line list
-     */
     private List<String> convertFile2List(String filename) {
         List<String> lineList = new ArrayList<>(100);
         File file = new File(filename);
@@ -401,12 +323,6 @@ public abstract class AbstractCommandExecutor {
         return lineList;
     }
 
-    /**
-     * find app id
-     *
-     * @param line line
-     * @return appid
-     */
     private String findAppId(String line) {
         Matcher matcher = APPLICATION_REGEX.matcher(line);
         if (matcher.find()) {
@@ -415,59 +331,33 @@ public abstract class AbstractCommandExecutor {
         return null;
     }
 
-    /**
-     * get remain time（s）
-     *
-     * @return remain time
-     */
     private long getRemainTime() {
         long usedTime = (System.currentTimeMillis() - taskRequest.getStartTime().getTime()) / 1000;
         long remainTime = taskRequest.getTaskTimeout() - usedTime;
-
         if (remainTime < 0) {
             throw new RuntimeException("task execution time out");
         }
-
         return remainTime;
     }
 
-    /**
-     * get process id
-     *
-     * @param process process
-     * @return process id
-     */
     private int getProcessId(Process process) {
         int processId = 0;
-
         try {
             Field f = process.getClass().getDeclaredField(TaskConstants.PID);
             f.setAccessible(true);
-
             processId = f.getInt(process);
         } catch (Throwable e) {
             logger.error(e.getMessage(), e);
         }
-
         return processId;
     }
 
-    /**
-     * when log buffer siz or flush time reach condition , then flush
-     *
-     * @param lastFlushTime last flush time
-     * @return last flush time
-     */
     private long flush(long lastFlushTime) {
         long now = System.currentTimeMillis();
-
-        /*
-         * when log buffer siz or flush time reach condition , then flush
-         */
+        // when log buffer siz or flush time reach condition , then flush
         if (logBuffer.size() >= TaskConstants.DEFAULT_LOG_ROWS_NUM || now - lastFlushTime > TaskConstants.DEFAULT_LOG_FLUSH_INTERVAL) {
             lastFlushTime = now;
             logHandler.accept(logBuffer);
-
             logBuffer.clear();
         }
         return lastFlushTime;

@@ -25,46 +25,18 @@ import java.util.regex.Pattern;
 
 import org.slf4j.Logger;
 
-/**
- * logger utils
- */
 public class LoggerUtils {
 
     private static final String APPLICATION_REGEX_NAME = "application_\\d+_\\d+";
+    private static final Pattern APPLICATION_REGEX = Pattern.compile(APPLICATION_REGEX_NAME);
+    public static final String TASK_LOGGER_INFO_PREFIX = "TASK";
+    public static final String TASK_LOGGER_THREAD_NAME = "TaskLogInfo";
+    public static final String TASK_APPID_LOG_FORMAT = "[taskAppId=";
 
     private LoggerUtils() {
         throw new UnsupportedOperationException("Construct LoggerUtils");
     }
 
-    /**
-     * rules for extracting application ID
-     */
-    private static final Pattern APPLICATION_REGEX = Pattern.compile(APPLICATION_REGEX_NAME);
-
-    /**
-     * Task Logger's prefix
-     */
-    public static final String TASK_LOGGER_INFO_PREFIX = "TASK";
-
-    /**
-     * Task Logger Thread's name
-     */
-    public static final String TASK_LOGGER_THREAD_NAME = "TaskLogInfo";
-
-    /**
-     * Task Logger Thread's name
-     */
-    public static final String TASK_APPID_LOG_FORMAT = "[taskAppId=";
-
-    /**
-     * build job id
-     *
-     * @param affix Task Logger's prefix
-     * @param processDefId process define id
-     * @param processInstId process instance id
-     * @param taskId task id
-     * @return task id format
-     */
     public static String buildTaskId(String affix,
                                      int processDefId,
                                      int processInstId,
@@ -76,18 +48,8 @@ public class LoggerUtils {
                 taskId);
     }
 
-    /**
-     * processing log
-     * get yarn application id list
-     *
-     * @param log log content
-     * @param logger logger
-     * @return app id list
-     */
     public static List<String> getAppIds(String log, Logger logger) {
-
         List<String> appIds = new ArrayList<>();
-
         Matcher matcher = APPLICATION_REGEX.matcher(log);
 
         // analyse logs to get all submit yarn application id

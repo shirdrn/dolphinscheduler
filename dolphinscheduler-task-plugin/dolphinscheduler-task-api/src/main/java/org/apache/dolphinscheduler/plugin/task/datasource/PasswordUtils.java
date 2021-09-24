@@ -34,16 +34,12 @@ import org.slf4j.LoggerFactory;
 public class PasswordUtils {
 
     private static final Logger logger = LoggerFactory.getLogger(PasswordUtils.class);
-
     private static final Base64 BASE64 = new Base64();
 
     private PasswordUtils() {
         throw new UnsupportedOperationException("Construct PasswordUtils");
     }
 
-    /**
-     * encode password
-     */
     public static String encodePassword(String password) {
         if (StringUtils.isEmpty(password)) {
             return StringUtils.EMPTY;
@@ -61,9 +57,6 @@ public class PasswordUtils {
         return new String(BASE64.encode(passwordWithSalt.getBytes(StandardCharsets.UTF_8)));
     }
 
-    /**
-     * decode password
-     */
     public static String decodePassword(String password) {
         if (StringUtils.isEmpty(password)) {
             return StringUtils.EMPTY;

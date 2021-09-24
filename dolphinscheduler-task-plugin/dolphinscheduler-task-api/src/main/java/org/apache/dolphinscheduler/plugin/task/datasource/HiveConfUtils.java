@@ -26,9 +26,6 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-/**
- * hive conf utils
- */
 public class HiveConfUtils {
 
     private HiveConfUtils() {
@@ -47,27 +44,14 @@ public class HiveConfUtils {
         }
     }
 
-    /**
-     * get HiveConf instance
-     * @return HiveConf hiveConf
-     */
     public static HiveConf getInstance() {
         return HiveConfHandler.singleton;
     }
 
-    /**
-     * get hive conf vars
-     * @return
-     */
     public static Map<String,Object> getHiveConfVars() {
         return HiveConfHandler.hiveConfVars;
     }
 
-    /**
-     * Determine if it belongs to a hive conf property
-     * @param conf config
-     * @return boolean result
-     */
     public static boolean isHiveConfVar(String conf) {
         // the default hive conf var name
         String confKey = conf.split("=")[0];

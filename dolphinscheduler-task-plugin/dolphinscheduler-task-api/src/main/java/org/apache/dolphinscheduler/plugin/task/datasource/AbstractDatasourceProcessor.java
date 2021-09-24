@@ -25,11 +25,8 @@ import java.util.regex.Pattern;
 public abstract class AbstractDatasourceProcessor implements DatasourceProcessor {
 
     private static final Pattern IPV4_PATTERN = Pattern.compile("^[a-zA-Z0-9\\_\\-\\.]+$");
-
     private static final Pattern IPV6_PATTERN = Pattern.compile("^[a-zA-Z0-9\\_\\-\\.\\:\\[\\]]+$");
-
     private static final Pattern DATABASE_PATTER = Pattern.compile("^[a-zA-Z0-9\\_\\-\\.]+$");
-
     private static final Pattern PARAMS_PATTER = Pattern.compile("^[a-zA-Z0-9\\-\\_\\/]+$");
 
     @Override
@@ -39,33 +36,18 @@ public abstract class AbstractDatasourceProcessor implements DatasourceProcessor
         checkOther(baseDataSourceParamDTO.getOther());
     }
 
-    /**
-     * Check the host is valid
-     *
-     * @param host datasource host
-     */
     protected void checkHost(String host) {
         if (!IPV4_PATTERN.matcher(host).matches() || !IPV6_PATTERN.matcher(host).matches()) {
             throw new IllegalArgumentException("datasource host illegal");
         }
     }
 
-    /**
-     * check database name is valid
-     *
-     * @param database database name
-     */
     protected void checkDatasourcePatter(String database) {
         if (!DATABASE_PATTER.matcher(database).matches()) {
             throw new IllegalArgumentException("datasource name illegal");
         }
     }
 
-    /**
-     * check other is valid
-     *
-     * @param other other
-     */
     protected void checkOther(Map<String, String> other) {
         if (MapUtils.isEmpty(other)) {
             return;

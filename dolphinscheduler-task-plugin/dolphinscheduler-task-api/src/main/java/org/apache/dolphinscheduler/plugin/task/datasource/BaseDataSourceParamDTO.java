@@ -62,21 +62,13 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 public abstract class BaseDataSourceParamDTO implements Serializable {
 
     protected Integer id;
-
     protected String name;
-
     protected String note;
-
     protected String host;
-
     protected Integer port;
-
     protected String database;
-
     protected String userName;
-
     protected String password;
-
     protected Map<String, String> other;
 
     public Integer getId() {
@@ -151,11 +143,5 @@ public abstract class BaseDataSourceParamDTO implements Serializable {
         this.other = other;
     }
 
-    /**
-     * Get the datasource type
-     * see{@link DbType}
-     *
-     * @return datasource type code
-     */
     public abstract DbType getType();
 }

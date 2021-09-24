@@ -29,42 +29,18 @@ public class OSUtils {
         throw new IllegalStateException("Utility class");
     }
 
-    /**
-     * get sudo command
-     *
-     * @param tenantCode tenantCode
-     * @param command command
-     * @return result of sudo execute command
-     */
     public static String getSudoCmd(String tenantCode, String command) {
         return StringUtils.isEmpty(tenantCode) ? command : "sudo -u " + tenantCode + " " + command;
     }
 
-    /**
-     * whether is macOS
-     *
-     * @return true if mac
-     */
     public static boolean isMacOS() {
         return getOSName().startsWith("Mac");
     }
 
-    /**
-     * whether is windows
-     *
-     * @return true if windows
-     */
     public static boolean isWindows() {
         return getOSName().startsWith("Windows");
     }
 
-    /**
-     * Execute the corresponding command of Linux or Windows
-     *
-     * @param command command
-     * @return result of execute command
-     * @throws IOException errors
-     */
     public static String exeCmd(String command) throws IOException {
         StringTokenizer st = new StringTokenizer(command);
         String[] cmdArray = new String[st.countTokens()];
@@ -74,13 +50,6 @@ public class OSUtils {
         return exeShell(cmdArray);
     }
 
-    /**
-     * Execute the shell
-     *
-     * @param command command
-     * @return result of execute the shell
-     * @throws IOException errors
-     */
     public static String exeShell(String[] command) throws IOException {
         return ShellExecutor.execCommand(command);
     }

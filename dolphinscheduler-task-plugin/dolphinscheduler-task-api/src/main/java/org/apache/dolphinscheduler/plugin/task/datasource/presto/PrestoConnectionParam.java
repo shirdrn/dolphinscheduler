@@ -20,6 +20,7 @@ package org.apache.dolphinscheduler.plugin.task.datasource.presto;
 import org.apache.dolphinscheduler.plugin.task.datasource.BaseConnectionParam;
 
 public class PrestoConnectionParam extends BaseConnectionParam {
+
     @Override
     public String toString() {
         return "PrestoConnectionParam{"

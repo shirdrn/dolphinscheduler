@@ -20,6 +20,7 @@ package org.apache.dolphinscheduler.plugin.task.datasource.postgresql;
 import org.apache.dolphinscheduler.plugin.task.datasource.BaseConnectionParam;
 
 public class PostgreSqlConnectionParam extends BaseConnectionParam {
+
     @Override
     public String toString() {
         return "PostgreSqlConnectionParam{"

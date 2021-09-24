@@ -19,43 +19,13 @@ package org.apache.dolphinscheduler.plugin.task.api;
 
 public class TaskResponse {
 
-    /**
-     * varPool string
-     */
     private String varPool;
-
-    /**
-     * SHELL process pid
-     */
     private int processId;
-
-    /**
-     * SHELL result string
-     */
     private String resultString;
-
-    /**
-     * other resource manager appId , for example : YARN etc
-     */
     private String appIds;
-
-    /**
-     * process
-     */
     private Process process;
-
-
-
-    /**
-     * cancel
-     */
     private volatile boolean cancel = false;
-
-    /**
-     * exit code
-     */
     private volatile int exitStatusCode = -1;
-
     private TaskRunStatus status;
 
     public String getVarPool() {

@@ -32,28 +32,11 @@ import java.util.function.Consumer;
 
 import org.slf4j.Logger;
 
-/**
- * shell command executor
- */
 public class ShellCommandExecutor extends AbstractCommandExecutor {
 
-    /**
-     * For Unix-like, using sh
-     */
     private static final String SH = "sh";
-
-    /**
-     * For Windows, using cmd.exe
-     */
     private static final String CMD = "cmd.exe";
 
-    /**
-     * constructor
-     *
-     * @param logHandler logHandler
-     * @param taskRequest taskRequest
-     * @param logger logger
-     */
     public ShellCommandExecutor(Consumer<List<String>> logHandler,
                                 TaskRequest taskRequest,
                                 Logger logger) {
@@ -73,13 +56,6 @@ public class ShellCommandExecutor extends AbstractCommandExecutor {
                 , OSUtils.isWindows() ? "bat" : "command");
     }
 
-    /**
-     * create command file if not exists
-     *
-     * @param execCommand exec command
-     * @param commandFile command file
-     * @throws IOException io exception
-     */
     @Override
     protected void createCommandFileIfNotExists(String execCommand, String commandFile) throws IOException {
         logger.info("tenantCode user:{}, task dir:{}", taskRequest.getTenantCode(),

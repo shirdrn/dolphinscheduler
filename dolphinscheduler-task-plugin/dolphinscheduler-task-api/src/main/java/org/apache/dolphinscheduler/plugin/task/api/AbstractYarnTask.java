@@ -19,20 +19,10 @@ package org.apache.dolphinscheduler.plugin.task.api;
 
 import org.apache.dolphinscheduler.spi.task.request.TaskRequest;
 
-/**
- * abstract yarn task
- */
 public abstract class AbstractYarnTask extends AbstractTaskExecutor {
-    /**
-     * process task
-     */
+
     private ShellCommandExecutor shellCommandExecutor;
 
-    /**
-     * Abstract Yarn Task
-     *
-     * @param taskRequest taskRequest
-     */
     public AbstractYarnTask(TaskRequest taskRequest) {
         super(taskRequest);
         this.shellCommandExecutor = new ShellCommandExecutor(this::logHandle,
@@ -55,33 +45,14 @@ public abstract class AbstractYarnTask extends AbstractTaskExecutor {
         }
     }
 
-    /**
-     * cancel application
-     *
-     * @param status status
-     * @throws Exception exception
-     */
     @Override
     public void cancelApplication(boolean status) throws Exception {
         cancel = true;
         // cancel process
         shellCommandExecutor.cancelApplication();
-        //  TaskInstance taskInstance = processService.findTaskInstanceById(taskExecutionContext.getTaskInstanceId());
-        // if (status && taskInstance != null){
-        //   ProcessUtils.killYarnJob(taskExecutionContext);
-        //  }
     }
 
-    /**
-     * create command
-     *
-     * @return String
-     * @throws Exception exception
-     */
     protected abstract String buildCommand();
 
-    /**
-     * set main jar name
-     */
     protected abstract void setMainJarName();
 }

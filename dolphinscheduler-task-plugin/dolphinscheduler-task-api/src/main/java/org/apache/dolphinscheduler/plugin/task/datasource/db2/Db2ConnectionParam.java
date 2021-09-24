@@ -20,6 +20,7 @@ package org.apache.dolphinscheduler.plugin.task.datasource.db2;
 import org.apache.dolphinscheduler.plugin.task.datasource.BaseConnectionParam;
 
 public class Db2ConnectionParam extends BaseConnectionParam {
+
     @Override
     public String toString() {
         return "Db2ConnectionParam{"

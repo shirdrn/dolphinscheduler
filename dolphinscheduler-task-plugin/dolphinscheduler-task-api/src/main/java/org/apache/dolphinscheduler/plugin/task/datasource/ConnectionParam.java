@@ -19,8 +19,5 @@ package org.apache.dolphinscheduler.plugin.task.datasource;
 
 import java.io.Serializable;
 
-/**
- * The model of Datasource Connection param
- */
 public interface ConnectionParam extends Serializable {
 }

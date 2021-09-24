@@ -32,7 +32,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * A base class for running a Unix command.
+ * A base class for running an Unix command.
  *
  * <code>AbstractShell</code> can be used to run unix commands like <code>du</code> or
  * <code>df</code>. It also offers facilities to gate commands by
@@ -41,80 +41,33 @@ import org.slf4j.LoggerFactory;
 public abstract class AbstractShell {
 
     private static final Logger logger = LoggerFactory.getLogger(AbstractShell.class);
-
-    /**
-     * Time after which the executing script would be timedout
-     */
     protected long timeOutInterval = 0L;
-    /**
-     * If or not script timed out
-     */
     private AtomicBoolean timedOut;
-
-    /**
-     * refresh interval in msec
-     */
     private long interval;
-
-    /**
-     * last time the command was performed
-     */
     private long lastTime;
-
-    /**
-     * env for the command execution
-     */
     private Map<String, String> environment;
-
     private File dir;
-
-    /**
-     * sub process used to execute the command
-     */
     private Process process;
     private int exitCode;
-
-    /**
-     * If or not script finished executing
-     */
     private AtomicBoolean completed;
 
     AbstractShell() {
         this(0L);
     }
 
-    /**
-     * @param interval the minimum duration to wait before re-executing the
-     * command.
-     */
     AbstractShell(long interval) {
         this.interval = interval;
         this.lastTime = (interval < 0) ? 0 : -interval;
     }
 
-    /**
-     * set the environment for the command
-     *
-     * @param env Mapping of environment variables
-     */
     protected void setEnvironment(Map<String, String> env) {
         this.environment = env;
     }
 
-    /**
-     * set the working directory
-     *
-     * @param dir The directory where the command would be executed
-     */
     protected void setWorkingDirectory(File dir) {
         this.dir = dir;
     }
 
-    /**
-     * check to see if a command needs to be executed and execute if needed
-     *
-     * @throws IOException errors
-     */
     protected void run() throws IOException {
         if (lastTime + interval > System.currentTimeMillis()) {
             return;
@@ -124,9 +77,6 @@ public abstract class AbstractShell {
         runCommand();
     }
 
-    /**
-     * Run a command   actual work
-     */
     private void runCommand() throws IOException {
         ProcessBuilder builder = new ProcessBuilder(getExecString());
         Timer timeOutTimer = null;
@@ -235,41 +185,18 @@ public abstract class AbstractShell {
         }
     }
 
-    /**
-     * @return an array containing the command name and its parameters
-     */
     protected abstract String[] getExecString();
 
-    /**
-     * Parse the execution result
-     *
-     * @param lines lines
-     * @throws IOException errors
-     */
-    protected abstract void parseExecResult(BufferedReader lines)
-            throws IOException;
+    protected abstract void parseExecResult(BufferedReader lines) throws IOException;
 
-    /**
-     * get the current sub-process executing the given command
-     *
-     * @return process executing the command
-     */
     public Process getProcess() {
         return process;
     }
 
-    /**
-     * get the exit code
-     *
-     * @return the exit code of the process
-     */
     public int getExitCode() {
         return exitCode;
     }
 
-    /**
-     * Set if the command has timed out.
-     */
     private void setTimedOut() {
         this.timedOut.set(true);
     }

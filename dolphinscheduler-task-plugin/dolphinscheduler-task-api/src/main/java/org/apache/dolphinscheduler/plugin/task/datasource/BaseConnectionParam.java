@@ -47,15 +47,10 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 public abstract class BaseConnectionParam implements ConnectionParam {
 
     protected String user;
-
     protected String password;
-
     protected String address;
-
     protected String database;
-
     protected String jdbcUrl;
-
     protected String other;
 
     public String getUser() {

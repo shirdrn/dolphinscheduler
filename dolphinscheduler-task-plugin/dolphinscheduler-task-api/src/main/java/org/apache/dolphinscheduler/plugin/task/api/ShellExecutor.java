@@ -121,11 +121,6 @@ public class ShellExecutor extends AbstractShell {
         return execCommand(env, cmd, 0L);
     }
 
-    /**
-     * Execute the shell command
-     *
-     * @throws IOException errors
-     */
     public void execute() throws IOException {
         this.run();
     }
@@ -147,9 +142,6 @@ public class ShellExecutor extends AbstractShell {
         }
     }
 
-    /**
-     * @return the output of the shell command
-     */
     public String getOutput() {
         return (output == null) ? "" : output.toString();
     }

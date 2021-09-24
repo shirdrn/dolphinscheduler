@@ -48,15 +48,10 @@ import org.slf4j.LoggerFactory;
 public class MysqlDatasourceProcessor extends AbstractDatasourceProcessor {
 
     private final Logger logger = LoggerFactory.getLogger(MysqlDatasourceProcessor.class);
-
     private static final String ALLOW_LOAD_LOCAL_IN_FILE_NAME = "allowLoadLocalInfile";
-
     private static final String AUTO_DESERIALIZE = "autoDeserialize";
-
     private static final String ALLOW_LOCAL_IN_FILE_NAME = "allowLocalInfile";
-
     private static final String ALLOW_URL_IN_LOCAL_IN_FILE_NAME = "allowUrlInLocalInfile";
-
     private static final String APPEND_PARAMS = "allowLoadLocalInfile=false&autoDeserialize=false&allowLocalInfile=false&allowUrlInLocalInfile=false";
 
     @Override

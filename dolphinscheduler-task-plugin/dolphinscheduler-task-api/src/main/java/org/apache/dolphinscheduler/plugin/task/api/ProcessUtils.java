@@ -28,8 +28,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public final class ProcessUtils {
-    private static final Logger logger = LoggerFactory.getLogger(ProcessUtils.class);
 
+    private static final Logger logger = LoggerFactory.getLogger(ProcessUtils.class);
     private ProcessUtils() {
         throw new IllegalStateException("Utility class");
     }
@@ -45,9 +45,6 @@ public final class ProcessUtils {
      */
     private static final Pattern WINDOWSATTERN = Pattern.compile("(\\d+)");
 
-    /**
-     * kill tasks according to different task types.
-     */
     public static void kill(TaskRequest request) {
         try {
             int processId = request.getProcessId();
@@ -67,13 +64,6 @@ public final class ProcessUtils {
         }
     }
 
-    /**
-     * get pids str.
-     *
-     * @param processId process id
-     * @return pids pid String
-     * @throws Exception exception
-     */
     public static String getPidsStr(int processId) throws Exception {
         StringBuilder sb = new StringBuilder();
         Matcher mat = null;
@@ -87,13 +77,11 @@ public final class ProcessUtils {
             String pids = OSUtils.exeCmd(String.format("%s -p %d", TaskConstants.PSTREE, processId));
             mat = WINDOWSATTERN.matcher(pids);
         }
-
         if (null != mat) {
             while (mat.find()) {
                 sb.append(mat.group(1)).append(" ");
             }
         }
-
         return sb.toString().trim();
     }
 

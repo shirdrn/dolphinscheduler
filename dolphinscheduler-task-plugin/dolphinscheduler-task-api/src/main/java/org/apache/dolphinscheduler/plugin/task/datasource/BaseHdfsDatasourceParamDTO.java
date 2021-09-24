@@ -20,11 +20,8 @@ package org.apache.dolphinscheduler.plugin.task.datasource;
 public abstract class BaseHdfsDatasourceParamDTO extends BaseDataSourceParamDTO {
 
     protected String principal;
-
     protected String javaSecurityKrb5Conf;
-
     protected String loginUserKeytabUsername;
-
     protected String loginUserKeytabPath;
 
     public String getPrincipal() {

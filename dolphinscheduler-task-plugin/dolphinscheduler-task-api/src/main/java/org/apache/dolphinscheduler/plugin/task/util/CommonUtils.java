@@ -35,20 +35,12 @@ import org.apache.hadoop.security.UserGroupInformation;
 
 import java.io.IOException;
 
-/**
- * common utils
- */
 public class CommonUtils {
 
     private CommonUtils() {
         throw new UnsupportedOperationException("Construct CommonUtils");
     }
-    
-    /**
-     * if upload resource is HDFS and kerberos startup is true , else false
-     *
-     * @return true if upload resource is HDFS and kerberos startup
-     */
+
     public static boolean getKerberosStartupState() {
         String resUploadStartupType = PropertyUtils.getUpperCaseString(RESOURCE_STORAGE_TYPE);
         ResUploadType resUploadType = ResUploadType.valueOf(resUploadStartupType);
@@ -56,41 +48,16 @@ public class CommonUtils {
         return resUploadType == ResUploadType.HDFS && kerberosStartupState;
     }
 
-    /**
-     * load kerberos configuration
-     *
-     * @param configuration
-     * @return load kerberos config return true
-     * @throws IOException errors
-     */
     public static boolean loadKerberosConf(Configuration configuration) throws IOException {
         return loadKerberosConf(PropertyUtils.getString(JAVA_SECURITY_KRB5_CONF_PATH),
                 PropertyUtils.getString(LOGIN_USER_KEY_TAB_USERNAME),
                 PropertyUtils.getString(LOGIN_USER_KEY_TAB_PATH), configuration);
     }
 
-    /**
-     * load kerberos configuration
-     *
-     * @param javaSecurityKrb5Conf javaSecurityKrb5Conf
-     * @param loginUserKeytabUsername loginUserKeytabUsername
-     * @param loginUserKeytabPath loginUserKeytabPath
-     * @throws IOException errors
-     */
     public static void loadKerberosConf(String javaSecurityKrb5Conf, String loginUserKeytabUsername, String loginUserKeytabPath) throws IOException {
         loadKerberosConf(javaSecurityKrb5Conf, loginUserKeytabUsername, loginUserKeytabPath, new Configuration());
     }
 
-    /**
-     * load kerberos configuration
-     *
-     * @param javaSecurityKrb5Conf javaSecurityKrb5Conf
-     * @param loginUserKeytabUsername loginUserKeytabUsername
-     * @param loginUserKeytabPath loginUserKeytabPath
-     * @param configuration configuration
-     * @return load kerberos config return true
-     * @throws IOException errors
-     */
     public static boolean loadKerberosConf(String javaSecurityKrb5Conf, String loginUserKeytabUsername, String loginUserKeytabPath, Configuration configuration) throws IOException {
         if (CommonUtils.getKerberosStartupState()) {
             System.setProperty(JAVA_SECURITY_KRB5_CONF, StringUtils.defaultIfBlank(javaSecurityKrb5Conf, PropertyUtils.getString(JAVA_SECURITY_KRB5_CONF_PATH)));
