@@ -57,9 +57,6 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import com.facebook.presto.jdbc.internal.guava.collect.ImmutableList;
 
-/**
- * worker server
- */
 @ComponentScan(value = "org.apache.dolphinscheduler", excludeFilters = {
         @ComponentScan.Filter(type = FilterType.REGEX, pattern = {
                 "org.apache.dolphinscheduler.server.master.*",
@@ -70,61 +67,21 @@ import com.facebook.presto.jdbc.internal.guava.collect.ImmutableList;
 @EnableTransactionManagement
 public class WorkerServer implements IStoppable {
 
-    /**
-     * logger
-     */
     private static final Logger logger = LoggerFactory.getLogger(WorkerServer.class);
-
-    /**
-     * netty remote server
-     */
     private NettyRemotingServer nettyRemotingServer;
-
-    /**
-     * worker registry
-     */
     @Autowired
     private WorkerRegistryClient workerRegistryClient;
-
-    /**
-     * worker config
-     */
     @Autowired
     private WorkerConfig workerConfig;
-
-    /**
-     * spring application context
-     * only use it for initialization
-     */
     @Autowired
     private SpringApplicationContext springApplicationContext;
-
-    /**
-     * alert model netty remote server
-     */
     private AlertClientService alertClientService;
-
     @Autowired
     private RetryReportTaskStatusThread retryReportTaskStatusThread;
-
     @Autowired
     private WorkerManagerThread workerManagerThread;
-
     private TaskPluginManager taskPluginManager;
 
-    /**
-     * worker server startup, not use web service
-     *
-     * @param args arguments
-     */
-    public static void main(String[] args) {
-        Thread.currentThread().setName(Constants.THREAD_NAME_WORKER_SERVER);
-        new SpringApplicationBuilder(WorkerServer.class).web(WebApplicationType.NONE).run(args);
-    }
-
-    /**
-     * worker server run
-     */
     @PostConstruct
     public void run() {
         // alert-server client registry
@@ -195,7 +152,6 @@ public class WorkerServer implements IStoppable {
     }
 
     public void close(String cause) {
-
         try {
             // execute only once
             if (Stopper.isStopped()) {
@@ -203,7 +159,6 @@ public class WorkerServer implements IStoppable {
             }
 
             logger.info("worker server is stopping ..., cause : {}", cause);
-
             // set stop signal is true
             Stopper.stop();
 
@@ -227,5 +182,10 @@ public class WorkerServer implements IStoppable {
     @Override
     public void stop(String cause) {
         close(cause);
+    }
+
+    public static void main(String[] args) {
+        Thread.currentThread().setName(Constants.THREAD_NAME_WORKER_SERVER);
+        new SpringApplicationBuilder(WorkerServer.class).web(WebApplicationType.NONE).run(args);
     }
 }

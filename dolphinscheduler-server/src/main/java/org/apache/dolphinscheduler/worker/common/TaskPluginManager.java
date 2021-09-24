@@ -45,22 +45,17 @@ import org.slf4j.LoggerFactory;
 public class TaskPluginManager extends AbstractDolphinPluginManager {
 
     private static final Logger logger = LoggerFactory.getLogger(TaskPluginManager.class);
-
     private final Map<String, TaskChannelFactory> taskChannelFactoryMap = new ConcurrentHashMap<>();
     private final Map<String, TaskChannel> taskChannelMap = new ConcurrentHashMap<>();
 
-    /**
-     * k->pluginDefineId v->pluginDefineName
-     */
+    // k->pluginDefineId, v->pluginDefineName
     private final Map<Integer, String> pluginDefineMap = new HashMap<>();
 
     private void addTaskChannelFactory(TaskChannelFactory taskChannelFactory) {
         requireNonNull(taskChannelFactory, "taskChannelFactory is null");
-
         if (taskChannelFactoryMap.putIfAbsent(taskChannelFactory.getName(), taskChannelFactory) != null) {
             throw new IllegalArgumentException(format("Task Plugin '%s' is already registered", taskChannelFactory.getName()));
         }
-
         try {
             loadTaskChannel(taskChannelFactory.getName());
         } catch (Exception e) {
@@ -70,18 +65,14 @@ public class TaskPluginManager extends AbstractDolphinPluginManager {
 
     private void loadTaskChannel(String name) {
         requireNonNull(name, "name is null");
-
         TaskChannelFactory taskChannelFactory = taskChannelFactoryMap.get(name);
         checkState(taskChannelFactory != null, "Task Plugin {} is not registered", name);
-
         try (ThreadContextClassLoader ignored = new ThreadContextClassLoader(taskChannelFactory.getClass().getClassLoader())) {
             TaskChannel taskChannel = taskChannelFactory.create();
             this.taskChannelMap.put(name, taskChannel);
         }
-
         logger.info("-- Loaded Task Plugin {} --", name);
     }
-
 
     private PluginDao pluginDao = DaoFactory.getDaoInstance(PluginDao.class);
 

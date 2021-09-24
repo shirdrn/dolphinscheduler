@@ -47,6 +47,7 @@ import org.slf4j.LoggerFactory;
  * mainly used to get the start command line of a process.
  */
 public class ProcessUtils {
+
     private static final Logger logger = LoggerFactory.getLogger(ProcessUtils.class);
 
     /**

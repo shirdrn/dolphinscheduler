@@ -122,9 +122,6 @@ public class MasterServer implements IStoppable {
             logger.error("start Quartz failed", e);
         }
 
-        /**
-         * register hooks, which are called before the process exits
-         */
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             if (Stopper.isRunning()) {
                 close("shutdownHook");
@@ -134,7 +131,6 @@ public class MasterServer implements IStoppable {
     }
 
     public void close(String cause) {
-
         try {
             // execute only once
             if (Stopper.isStopped()) {
@@ -142,7 +138,6 @@ public class MasterServer implements IStoppable {
             }
 
             logger.info("master server is stopping ..., cause : {}", cause);
-
             // set stop signal is true
             Stopper.stop();
 

@@ -55,33 +55,13 @@ import com.google.common.base.Preconditions;
 
 import io.netty.channel.Channel;
 
-/**
- * worker request processor
- */
 public class TaskExecuteProcessor implements NettyRequestProcessor {
 
     private static final Logger logger = LoggerFactory.getLogger(TaskExecuteProcessor.class);
-
-    /**
-     * worker config
-     */
     private final WorkerConfig workerConfig;
-
-    /**
-     * task callback service
-     */
     private final TaskCallbackService taskCallbackService;
-
-    /**
-     * alert client service
-     */
     private AlertClientService alertClientService;
-
     private TaskPluginManager taskPluginManager;
-
-    /*
-     * task execute manager
-     */
     private final WorkerManagerThread workerManager;
 
     public TaskExecuteProcessor() {
@@ -183,12 +163,6 @@ public class TaskExecuteProcessor implements NettyRequestProcessor {
         taskCallbackService.sendAck(taskExecutionContext.getTaskInstanceId(), ackCommand.convert2Command());
     }
 
-    /**
-     * build ack command
-     *
-     * @param taskExecutionContext taskExecutionContext
-     * @return TaskExecuteAckCommand
-     */
     private TaskExecuteAckCommand buildAckCommand(TaskExecutionContext taskExecutionContext) {
         TaskExecuteAckCommand ackCommand = new TaskExecuteAckCommand();
         ackCommand.setTaskInstanceId(taskExecutionContext.getTaskInstanceId());
@@ -207,12 +181,6 @@ public class TaskExecuteProcessor implements NettyRequestProcessor {
         return ackCommand;
     }
 
-    /**
-     * get execute local path
-     *
-     * @param taskExecutionContext taskExecutionContext
-     * @return execute local path
-     */
     private String getExecLocalPath(TaskExecutionContext taskExecutionContext) {
         return FileUtils.getProcessExecDir(taskExecutionContext.getProjectCode(),
                 taskExecutionContext.getProcessDefineCode(),

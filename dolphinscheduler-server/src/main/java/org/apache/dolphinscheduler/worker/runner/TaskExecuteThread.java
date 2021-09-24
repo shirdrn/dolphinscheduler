@@ -66,54 +66,17 @@ import org.slf4j.LoggerFactory;
 
 import com.github.rholder.retry.RetryException;
 
-/**
- * task scheduler thread
- */
 public class TaskExecuteThread implements Runnable, Delayed {
 
-    /**
-     * logger
-     */
     private final Logger logger = LoggerFactory.getLogger(TaskExecuteThread.class);
-
-    /**
-     * task instance
-     */
     private TaskExecutionContext taskExecutionContext;
-
-    /**
-     * abstract task
-     */
     private AbstractTask task;
-
-    /**
-     * task callback service
-     */
     private TaskCallbackService taskCallbackService;
-
-    /**
-     * taskExecutionContextCacheManager
-     */
     private TaskExecutionContextCacheManager taskExecutionContextCacheManager;
-
-    /**
-     * task logger
-     */
     private Logger taskLogger;
-
-    /**
-     * alert client server
-     */
     private AlertClientService alertClientService;
-
     private TaskPluginManager taskPluginManager;
 
-    /**
-     * constructor
-     *
-     * @param taskExecutionContext taskExecutionContext
-     * @param taskCallbackService taskCallbackService
-     */
     public TaskExecuteThread(TaskExecutionContext taskExecutionContext,
                              TaskCallbackService taskCallbackService,
                              AlertClientService alertClientService) {
@@ -194,7 +157,6 @@ public class TaskExecuteThread implements Runnable, Delayed {
             responseCommand.setVarPool(JSONUtils.toJsonString(this.task.getParameters().getVarPool()));
             logger.info("task instance id : {},task final status : {}", taskExecutionContext.getTaskInstanceId(), this.task.getExitStatus());
         } catch (Throwable e) {
-
             logger.error("task scheduler failure", e);
             kill();
             responseCommand.setStatus(ExecutionStatus.FAILURE.getCode());
@@ -214,7 +176,7 @@ public class TaskExecuteThread implements Runnable, Delayed {
     }
 
     /**
-     * when task finish, clear execute path.
+     * After task finished, clear execute path.
      */
     private void clearTaskExecPath() {
         logger.info("develop mode is: {}", CommonUtils.isDevelopMode());
@@ -242,11 +204,6 @@ public class TaskExecuteThread implements Runnable, Delayed {
         }
     }
 
-    /**
-     * get global paras map
-     *
-     * @return map
-     */
     private Map<String, String> getGlobalParamsMap() {
         Map<String, String> globalParamsMap = new HashMap<>(16);
 
@@ -259,9 +216,6 @@ public class TaskExecuteThread implements Runnable, Delayed {
         return globalParamsMap;
     }
 
-    /**
-     * kill task
-     */
     public void kill() {
         if (task != null) {
             try {
@@ -272,13 +226,6 @@ public class TaskExecuteThread implements Runnable, Delayed {
         }
     }
 
-    /**
-     * download resource file
-     *
-     * @param execLocalPath execLocalPath
-     * @param projectRes projectRes
-     * @param logger logger
-     */
     private void downloadResource(String execLocalPath, Map<String, String> projectRes, Logger logger) {
         if (MapUtils.isEmpty(projectRes)) {
             return;
@@ -307,9 +254,6 @@ public class TaskExecuteThread implements Runnable, Delayed {
         }
     }
 
-    /**
-     * send an ack to change the status of the task.
-     */
     private void changeTaskExecutionStatusToRunning() {
         taskExecutionContext.setCurrentExecutionStatus(ExecutionStatus.RUNNING_EXECUTION);
         Command ackCommand = buildAckCommand().convert2Command();
@@ -323,11 +267,6 @@ public class TaskExecuteThread implements Runnable, Delayed {
         }
     }
 
-    /**
-     * build ack command.
-     *
-     * @return TaskExecuteAckCommand
-     */
     private TaskExecuteAckCommand buildAckCommand() {
         TaskExecuteAckCommand ackCommand = new TaskExecuteAckCommand();
         ackCommand.setTaskInstanceId(taskExecutionContext.getTaskInstanceId());
@@ -343,11 +282,6 @@ public class TaskExecuteThread implements Runnable, Delayed {
         return ackCommand;
     }
 
-    /**
-     * get current TaskExecutionContext
-     *
-     * @return TaskExecutionContext
-     */
     public TaskExecutionContext getTaskExecutionContext() {
         return this.taskExecutionContext;
     }

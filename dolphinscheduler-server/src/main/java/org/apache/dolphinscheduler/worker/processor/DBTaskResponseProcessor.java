@@ -30,9 +30,6 @@ import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Preconditions;
 
-/**
- *  db task response processor
- */
 public class DBTaskResponseProcessor implements NettyRequestProcessor {
 
     private final Logger logger = LoggerFactory.getLogger(DBTaskResponseProcessor.class);
@@ -53,6 +50,4 @@ public class DBTaskResponseProcessor implements NettyRequestProcessor {
             ResponceCache.get().removeResponseCache(taskResponseCommand.getTaskInstanceId());
         }
     }
-
-
 }

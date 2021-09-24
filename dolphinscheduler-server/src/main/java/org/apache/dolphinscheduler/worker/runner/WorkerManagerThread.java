@@ -38,32 +38,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-/**
- * Manage tasks
- */
 @Component
 public class WorkerManagerThread implements Runnable {
 
     private final Logger logger = LoggerFactory.getLogger(WorkerManagerThread.class);
-
-    /**
-     * task queue
-     */
     private final DelayQueue<TaskExecuteThread> workerExecuteQueue = new DelayQueue<>();
-
-    /**
-     * worker config
-     */
     private final WorkerConfig workerConfig;
-
-    /**
-     * thread executor service
-     */
     private final ExecutorService workerExecService;
-
-    /**
-     * task callback service
-     */
     private final TaskCallbackService taskCallbackService;
 
     public WorkerManagerThread() {
@@ -72,11 +53,6 @@ public class WorkerManagerThread implements Runnable {
         this.taskCallbackService = SpringApplicationContext.getBean(TaskCallbackService.class);
     }
 
-    /**
-     * get queue size
-     *
-     * @return queue size
-     */
     public int getQueueSize() {
         return workerExecuteQueue.size();
     }
@@ -92,9 +68,6 @@ public class WorkerManagerThread implements Runnable {
         sendTaskKillResponse(taskInstanceId);
     }
 
-    /**
-     * kill task before execute , like delay task
-     */
     private void sendTaskKillResponse(Integer taskInstanceId) {
         TaskRequest taskRequest = TaskExecutionContextCacheManager.getByTaskInstanceId(taskInstanceId);
         if (taskRequest == null) {
@@ -107,12 +80,6 @@ public class WorkerManagerThread implements Runnable {
         taskCallbackService.sendResult(taskExecutionContext.getTaskInstanceId(), responseCommand.convert2Command());
     }
 
-    /**
-     * submit task
-     *
-     * @param taskExecuteThread taskExecuteThread
-     * @return submit result
-     */
     public boolean offer(TaskExecuteThread taskExecuteThread) {
         return workerExecuteQueue.offer(taskExecuteThread);
     }

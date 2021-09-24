@@ -36,29 +36,13 @@ import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelFutureListener;
 
-
-/**
- * task callback service
- */
 @Service
 public class TaskCallbackService {
 
     private final Logger logger = LoggerFactory.getLogger(TaskCallbackService.class);
     private static final int[] RETRY_BACKOFF = {1, 2, 3, 5, 10, 20, 40, 100, 100, 100, 100, 200, 200, 200};
-
-    /**
-     * remote channels
-     */
     private static final ConcurrentHashMap<Integer, NettyRemoteChannel> REMOTE_CHANNELS = new ConcurrentHashMap<>();
-
-    /**
-     * zookeeper registry center
-     */
     private RegistryClient registryClient;
-
-    /**
-     * netty remoting client
-     */
     private final NettyRemotingClient nettyRemotingClient;
 
     public TaskCallbackService() {
@@ -69,19 +53,10 @@ public class TaskCallbackService {
         this.nettyRemotingClient.registerProcessor(CommandType.DB_TASK_RESPONSE, new DBTaskResponseProcessor());
     }
 
-    /**
-     * add callback channel
-     *
-     * @param taskInstanceId taskInstanceId
-     * @param channel        channel
-     */
     public void addRemoteChannel(int taskInstanceId, NettyRemoteChannel channel) {
         REMOTE_CHANNELS.put(taskInstanceId, channel);
     }
 
-    /**
-     * change remote channel
-     */
     public void changeRemoteChannel(int taskInstanceId, NettyRemoteChannel channel) {
         if (REMOTE_CHANNELS.containsKey(taskInstanceId)) {
             REMOTE_CHANNELS.remove(taskInstanceId);
@@ -89,12 +64,6 @@ public class TaskCallbackService {
         REMOTE_CHANNELS.put(taskInstanceId, channel);
     }
 
-    /**
-     * get callback channel
-     *
-     * @param taskInstanceId taskInstanceId
-     * @return callback channel
-     */
     private NettyRemoteChannel getRemoteChannel(int taskInstanceId) {
         Channel newChannel;
         NettyRemoteChannel nettyRemoteChannel = REMOTE_CHANNELS.get(taskInstanceId);
@@ -126,21 +95,10 @@ public class TaskCallbackService {
         return remoteChannel;
     }
 
-    /**
-     * remove callback channels
-     *
-     * @param taskInstanceId taskInstanceId
-     */
     public void remove(int taskInstanceId) {
         REMOTE_CHANNELS.remove(taskInstanceId);
     }
 
-    /**
-     * send ack
-     *
-     * @param taskInstanceId taskInstanceId
-     * @param command        command
-     */
     public void sendAck(int taskInstanceId, Command command) {
         NettyRemoteChannel nettyRemoteChannel = getRemoteChannel(taskInstanceId);
         if (nettyRemoteChannel != null) {
@@ -148,12 +106,6 @@ public class TaskCallbackService {
         }
     }
 
-    /**
-     * send result
-     *
-     * @param taskInstanceId taskInstanceId
-     * @param command        command
-     */
     public void sendResult(int taskInstanceId, Command command) {
         NettyRemoteChannel nettyRemoteChannel = getRemoteChannel(taskInstanceId);
         if (nettyRemoteChannel != null) {

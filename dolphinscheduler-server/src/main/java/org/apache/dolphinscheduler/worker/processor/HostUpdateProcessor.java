@@ -33,16 +33,11 @@ import com.google.common.base.Preconditions;
 import io.netty.channel.Channel;
 
 /**
- * update process host
- * this used when master failover
+ * Update process host, which used when master failover
  */
 public class HostUpdateProcessor implements NettyRequestProcessor {
 
     private final Logger logger = LoggerFactory.getLogger(HostUpdateProcessor.class);
-
-    /**
-     * task callback service
-     */
     private final TaskCallbackService taskCallbackService;
 
     public HostUpdateProcessor() {

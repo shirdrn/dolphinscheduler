@@ -28,13 +28,9 @@ import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Preconditions;
 
-/**
- *  db task ack processor
- */
 public class DBTaskAckProcessor implements NettyRequestProcessor {
 
     private final Logger logger = LoggerFactory.getLogger(DBTaskAckProcessor.class);
-
 
     @Override
     public void process(Channel channel, Command command) {
@@ -52,6 +48,5 @@ public class DBTaskAckProcessor implements NettyRequestProcessor {
             ResponceCache.get().removeAckCache(taskAckCommand.getTaskInstanceId());
         }
     }
-
 
 }

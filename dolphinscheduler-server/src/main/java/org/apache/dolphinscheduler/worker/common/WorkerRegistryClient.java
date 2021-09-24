@@ -48,32 +48,15 @@ import org.springframework.stereotype.Service;
 
 import com.google.common.collect.Sets;
 
-/**
- * worker registry
- */
 @Service
 public class WorkerRegistryClient {
 
     private final Logger logger = LoggerFactory.getLogger(WorkerRegistryClient.class);
-
-    /**
-     * worker config
-     */
     @Autowired
     private WorkerConfig workerConfig;
-
-    /**
-     * heartbeat executor
-     */
     private ScheduledExecutorService heartBeatExecutor;
-
     private RegistryClient registryClient;
-
-    /**
-     * worker start time
-     */
     private String startTime;
-
     private Set<String> workerGroups;
 
     @PostConstruct
@@ -84,9 +67,6 @@ public class WorkerRegistryClient {
         this.heartBeatExecutor = Executors.newSingleThreadScheduledExecutor(new NamedThreadFactory("HeartBeatExecutor"));
     }
 
-    /**
-     * registry
-     */
     public void registry() {
         String address = NetUtils.getAddr(workerConfig.getListenPort());
         Set<String> workerZkPaths = getWorkerZkPaths();
@@ -109,9 +89,6 @@ public class WorkerRegistryClient {
         logger.info("worker node : {} heartbeat interval {} s", address, workerHeartbeatInterval);
     }
 
-    /**
-     * remove registry info
-     */
     public void unRegistry() {
         String address = getLocalAddress();
         Set<String> workerZkPaths = getWorkerZkPaths();
@@ -124,9 +101,6 @@ public class WorkerRegistryClient {
         registryClient.close();
     }
 
-    /**
-     * get worker path
-     */
     public Set<String> getWorkerZkPaths() {
         Set<String> workerPaths = Sets.newHashSet();
         String address = getLocalAddress();
@@ -149,9 +123,6 @@ public class WorkerRegistryClient {
         registryClient.handleDeadServer(nodeSet, nodeType, opType);
     }
 
-    /**
-     * get local address
-     */
     private String getLocalAddress() {
         return NetUtils.getAddr(workerConfig.getListenPort());
     }

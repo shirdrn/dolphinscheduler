@@ -51,26 +51,11 @@ import com.google.common.base.Preconditions;
 
 import io.netty.channel.Channel;
 
-/**
- * task kill processor
- */
 public class TaskKillProcessor implements NettyRequestProcessor {
 
     private final Logger logger = LoggerFactory.getLogger(TaskKillProcessor.class);
-
-    /**
-     * worker config
-     */
     private final WorkerConfig workerConfig;
-
-    /**
-     * task callback service
-     */
     private final TaskCallbackService taskCallbackService;
-
-    /*
-     * task execute manager
-     */
     private final WorkerManagerThread workerManager;
 
     public TaskKillProcessor() {
@@ -79,12 +64,6 @@ public class TaskKillProcessor implements NettyRequestProcessor {
         this.workerManager = SpringApplicationContext.getBean(WorkerManagerThread.class);
     }
 
-    /**
-     * task kill process
-     *
-     * @param channel channel channel
-     * @param command command command
-     */
     @Override
     public void process(Channel channel, Command command) {
         Preconditions.checkArgument(CommandType.TASK_KILL_REQUEST == command.getType(), String.format("invalid command type : %s", command.getType()));
@@ -101,11 +80,6 @@ public class TaskKillProcessor implements NettyRequestProcessor {
         TaskExecutionContextCacheManager.removeByTaskInstanceId(taskKillResponseCommand.getTaskInstanceId());
     }
 
-    /**
-     * do kill
-     *
-     * @return kill result
-     */
     private Pair<Boolean, List<String>> doKill(TaskKillRequestCommand killCommand) {
         boolean processFlag = true;
         List<String> appIds = Collections.emptyList();
@@ -142,13 +116,6 @@ public class TaskKillProcessor implements NettyRequestProcessor {
         return Pair.of(processFlag && yarnResult.getLeft(), yarnResult.getRight());
     }
 
-    /**
-     * build TaskKillResponseCommand
-     *
-     * @param killCommand kill command
-     * @param result exe result
-     * @return build TaskKillResponseCommand
-     */
     private TaskKillResponseCommand buildKillTaskResponseCommand(TaskKillRequestCommand killCommand,
                                                                  Pair<Boolean, List<String>> result) {
         TaskKillResponseCommand taskKillResponseCommand = new TaskKillResponseCommand();
@@ -167,15 +134,6 @@ public class TaskKillProcessor implements NettyRequestProcessor {
         return taskKillResponseCommand;
     }
 
-    /**
-     * kill yarn job
-     *
-     * @param host host
-     * @param logPath logPath
-     * @param executePath executePath
-     * @param tenantCode tenantCode
-     * @return Pair<Boolean, List < String>> yarn kill result
-     */
     private Pair<Boolean, List<String>> killYarnJob(String host, String logPath, String executePath, String tenantCode) {
         try (LogClientService logClient = new LogClientService();) {
             logger.info("view log host : {},logPath : {}", host, logPath);
