@@ -25,11 +25,10 @@ import java.util.concurrent.ConcurrentHashMap;
 public class DaoFactory {
 
   private static final Logger logger = LoggerFactory.getLogger(DaoFactory.class);
-
   private static Map<String, AbstractBaseDao> daoMap = new ConcurrentHashMap<>();
 
   private DaoFactory(){
-
+    super();
   }
 
   @SuppressWarnings("unchecked")
@@ -47,7 +46,6 @@ public class DaoFactory {
         }
       }
     }
-
     return (T) daoMap.get(className);
   }
 }

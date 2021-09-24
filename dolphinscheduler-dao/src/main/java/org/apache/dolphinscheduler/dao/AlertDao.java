@@ -51,13 +51,10 @@ import com.google.common.collect.Lists;
 public class AlertDao extends AbstractBaseDao {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
-
     @Autowired
     private AlertMapper alertMapper;
-
     @Autowired
     private AlertPluginInstanceMapper alertPluginInstanceMapper;
-
     @Autowired
     private AlertGroupMapper alertGroupMapper;
 

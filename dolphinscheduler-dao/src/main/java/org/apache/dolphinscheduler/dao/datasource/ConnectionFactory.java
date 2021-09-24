@@ -63,9 +63,7 @@ public class ConnectionFactory extends SpringConnectionFactory {
     }
 
     private SqlSessionFactory sqlSessionFactory;
-
     private SqlSessionTemplate sqlSessionTemplate;
-
     private DataSource dataSource;
 
     public DataSource getDataSource() {
@@ -95,7 +93,6 @@ public class ConnectionFactory extends SpringConnectionFactory {
 
         sqlSessionFactoryBean.setTypeEnumsPackage("org.apache.dolphinscheduler.*.enums");
         sqlSessionFactory = sqlSessionFactoryBean.getObject();
-
         return sqlSessionFactory;
 }
 

@@ -16,14 +16,8 @@
  */
 package org.apache.dolphinscheduler.dao;
 
-/**
- * base dao
- */
 public abstract class AbstractBaseDao {
 
-  /**
-   * init
-   */
   protected abstract void init();
 
 }

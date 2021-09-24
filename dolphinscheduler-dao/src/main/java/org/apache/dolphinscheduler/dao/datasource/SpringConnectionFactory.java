@@ -48,10 +48,6 @@ import com.baomidou.mybatisplus.core.config.GlobalConfig;
 import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;
 import com.baomidou.mybatisplus.extension.spring.MybatisSqlSessionFactoryBean;
 
-
-/**
- * data source connection factory
- */
 @Configuration
 @MapperScan("org.apache.dolphinscheduler.*.mapper")
 public class SpringConnectionFactory {
@@ -62,21 +58,11 @@ public class SpringConnectionFactory {
         PropertyUtils.loadPropertyFile(DATASOURCE_PROPERTIES);
     }
 
-    /**
-     * pagination interceptor
-     *
-     * @return pagination interceptor
-     */
     @Bean
     public PaginationInterceptor paginationInterceptor() {
         return new PaginationInterceptor();
     }
 
-    /**
-     * get the data source
-     *
-     * @return druid dataSource
-     */
     @Bean(destroyMethod = "")
     public DruidDataSource dataSource() throws SQLException {
 
@@ -109,22 +95,11 @@ public class SpringConnectionFactory {
         return druidDataSource;
     }
 
-    /**
-     * * get transaction manager
-     *
-     * @return DataSourceTransactionManager
-     */
     @Bean
     public DataSourceTransactionManager transactionManager() throws SQLException {
         return new DataSourceTransactionManager(dataSource());
     }
 
-    /**
-     * * get sql session factory
-     *
-     * @return sqlSessionFactory
-     * @throws Exception sqlSessionFactory exception
-     */
     @Bean
     public SqlSessionFactory sqlSessionFactory() throws Exception {
         MybatisConfiguration configuration = new MybatisConfiguration();
@@ -150,11 +125,6 @@ public class SpringConnectionFactory {
         return sqlSessionFactoryBean.getObject();
     }
 
-    /**
-     * get sql session
-     *
-     * @return SqlSession
-     */
     @Bean
     public SqlSession sqlSession() throws Exception {
         return new SqlSessionTemplate(sqlSessionFactory());

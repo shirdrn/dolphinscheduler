@@ -35,7 +35,6 @@ public class MonitorDBDao {
 
     private static Logger logger = LoggerFactory.getLogger(MonitorDBDao.class);
     public static final String VARIABLE_NAME = "variable_name";
-
     @Autowired
     private DruidDataSource dataSource;
 

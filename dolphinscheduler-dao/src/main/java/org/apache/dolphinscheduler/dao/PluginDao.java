@@ -35,7 +35,6 @@ import org.springframework.stereotype.Component;
 public class PluginDao extends AbstractBaseDao {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
-
     @Autowired
     private PluginDefineMapper pluginDefineMapper;
 
