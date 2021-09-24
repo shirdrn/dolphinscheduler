@@ -23,7 +23,6 @@ public enum RpcSerializer {
     PROTOSTUFF((byte) 1, new ProtoStuffSerializer());
 
     byte type;
-
     Serializer serializer;
 
     RpcSerializer(byte type, Serializer serializer) {

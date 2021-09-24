@@ -32,23 +32,12 @@ import org.springframework.stereotype.Service;
 
 import io.netty.channel.Channel;
 
-/**
- * task callback service
- */
 @Service
 public class StateEventCallbackService {
 
     private final Logger logger = LoggerFactory.getLogger(StateEventCallbackService.class);
     private static final int[] RETRY_BACKOFF = {1, 2, 3, 5, 10, 20, 40, 100, 100, 100, 100, 200, 200, 200};
-
-    /**
-     * remote channels
-     */
     private static final ConcurrentHashMap<String, NettyRemoteChannel> REMOTE_CHANNELS = new ConcurrentHashMap<>();
-
-    /**
-     * netty remoting client
-     */
     private final NettyRemotingClient nettyRemotingClient;
 
     public StateEventCallbackService() {
@@ -56,21 +45,10 @@ public class StateEventCallbackService {
         this.nettyRemotingClient = new NettyRemotingClient(clientConfig);
     }
 
-    /**
-     * add callback channel
-     *
-     * @param channel channel
-     */
     public void addRemoteChannel(String host, NettyRemoteChannel channel) {
         REMOTE_CHANNELS.put(host, channel);
     }
 
-    /**
-     * get callback channel
-     *
-     * @param host
-     * @return callback channel
-     */
     private NettyRemoteChannel newRemoteChannel(Host host) {
         Channel newChannel;
         NettyRemoteChannel nettyRemoteChannel = REMOTE_CHANNELS.get(host.getAddress());
@@ -102,18 +80,10 @@ public class StateEventCallbackService {
         return remoteChannel;
     }
 
-    /**
-     * remove callback channels
-     */
     public void remove(String host) {
         REMOTE_CHANNELS.remove(host);
     }
 
-    /**
-     * send result
-     *
-     * @param command command
-     */
     public void sendResult(String address, int port, Command command) {
         logger.info("send result, host:{}, command:{}", address, command.toString());
         Host host = new Host(address, port);

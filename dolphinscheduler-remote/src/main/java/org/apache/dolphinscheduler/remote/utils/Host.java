@@ -21,24 +21,10 @@ import static org.apache.dolphinscheduler.common.Constants.COLON;
 
 import java.io.Serializable;
 
-/**
- * server address
- */
 public class Host implements Serializable {
 
-    /**
-     * address
-     */
     private String address;
-
-    /**
-     * ip
-     */
     private String ip;
-
-    /**
-     * port
-     */
     private int port;
 
     public Host() {
@@ -86,23 +72,11 @@ public class Host implements Serializable {
         this.address = ip + COLON + port;
     }
 
-    /**
-     * address convert host
-     *
-     * @param address address
-     * @return host
-     */
     public static Host of(String address) {
         String[] parts = splitAddress(address);
         return new Host(parts[0], Integer.parseInt(parts[1]));
     }
 
-    /**
-     * address convert host
-     *
-     * @param address address
-     * @return host
-     */
     public static String[] splitAddress(String address) {
         if (address == null) {
             throw new IllegalArgumentException("Host : address is null.");
@@ -114,12 +88,6 @@ public class Host implements Serializable {
         return parts;
     }
 
-    /**
-     * whether old version
-     *
-     * @param address address
-     * @return old version is true , otherwise is false
-     */
     public static Boolean isOldVersion(String address) {
         String[] parts = address.split(COLON);
         return parts.length != 2;

@@ -28,7 +28,6 @@ public enum ThreadPoolManager {
     INSTANCE;
 
     ExecutorService executorService;
-
     private static final int WORK_QUEUE_SIZE = 200;
     private static final long KEEP_ALIVE_TIME = 60;
 

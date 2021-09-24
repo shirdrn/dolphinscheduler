@@ -20,15 +20,10 @@ package org.apache.dolphinscheduler.rpc.protocol;
 public class MessageHeader {
 
     private byte version = 1;
-
     private byte eventType;
-
     private int msgLength = 0;
-
     private long requestId = 0L;
-
     private byte serialization = 0;
-
     private short magic = RpcProtocolConstants.MAGIC;
 
     public short getMagic() {

@@ -19,13 +19,9 @@ package org.apache.dolphinscheduler.remote.future;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-/**
- * release semaphore
- */
 public class ReleaseSemaphore {
 
     private final Semaphore semaphore;
-
     private final AtomicBoolean released;
 
     public ReleaseSemaphore(Semaphore semaphore){

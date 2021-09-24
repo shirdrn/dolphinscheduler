@@ -22,35 +22,12 @@ import org.apache.dolphinscheduler.common.utils.JSONUtils;
 import java.io.Serializable;
 import java.util.List;
 
-/**
- * kill task response command
- */
 public class TaskKillResponseCommand implements Serializable {
 
-    /**
-     * taskInstanceId
-     */
     private int taskInstanceId;
-
-    /**
-     * host
-     */
     private String host;
-
-    /**
-     * status
-     */
     private int status;
-
-
-    /**
-     * processId
-     */
     private int processId;
-
-    /**
-     * other resource manager appId , for example : YARN etc
-     */
     private List<String> appIds;
 
     public int getTaskInstanceId() {
@@ -93,11 +70,6 @@ public class TaskKillResponseCommand implements Serializable {
         this.appIds = appIds;
     }
 
-    /**
-     * package request command
-     *
-     * @return command
-     */
     public Command convert2Command() {
         Command command = new Command();
         command.setType(CommandType.TASK_KILL_RESPONSE);

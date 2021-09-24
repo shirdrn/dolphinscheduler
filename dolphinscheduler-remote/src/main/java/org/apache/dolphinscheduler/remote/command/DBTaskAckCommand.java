@@ -21,9 +21,6 @@ import org.apache.dolphinscheduler.common.utils.JSONUtils;
 
 import java.io.Serializable;
 
-/**
- * db task ack request command
- */
 public class DBTaskAckCommand implements Serializable {
 
     private int taskInstanceId;
@@ -54,11 +51,6 @@ public class DBTaskAckCommand implements Serializable {
         this.status = status;
     }
 
-    /**
-     * package response command
-     *
-     * @return command
-     */
     public Command convert2Command() {
         Command command = new Command();
         command.setType(CommandType.DB_TASK_ACK);

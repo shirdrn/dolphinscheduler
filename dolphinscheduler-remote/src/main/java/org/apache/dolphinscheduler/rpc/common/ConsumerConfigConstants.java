@@ -17,9 +17,6 @@
 
 package org.apache.dolphinscheduler.rpc.common;
 
-/**
- * ConsumerConfigConstants
- */
 public class ConsumerConfigConstants {
 
     private ConsumerConfigConstants() {
@@ -27,8 +24,6 @@ public class ConsumerConfigConstants {
     }
 
     public static final Boolean DEFAULT_SYNC = false;
-
     public static final Integer DEFAULT_RETRIES = 3;
-
     public static final Boolean DEFAULT_CALL_BACK = false;
 }

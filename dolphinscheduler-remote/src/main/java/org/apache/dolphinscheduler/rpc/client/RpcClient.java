@@ -24,9 +24,6 @@ import org.apache.dolphinscheduler.remote.utils.Host;
 import net.bytebuddy.ByteBuddy;
 import net.bytebuddy.implementation.MethodDelegation;
 
-/**
- * RpcClient
- */
 public class RpcClient implements IRpcClient {
 
     @Override

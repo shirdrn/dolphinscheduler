@@ -71,7 +71,7 @@ public class TaskCallbackService {
             if (nettyRemoteChannel.isActive()) {
                 return nettyRemoteChannel;
             }
-            newChannel = nettyRemotingClient.getChannel(nettyRemoteChannel.getHost());
+            newChannel = nettyRemotingClient.getChannel(nettyRemoteChannel.getMasterHost());
             if (newChannel != null) {
                 return getRemoteChannel(newChannel, nettyRemoteChannel.getOpaque(), taskInstanceId);
             }

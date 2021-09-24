@@ -19,9 +19,6 @@ package org.apache.dolphinscheduler.rpc.client;
 
 import java.util.concurrent.ConcurrentHashMap;
 
-/**
- * ConsumerConfigCache
- */
 public class ConsumerConfigCache {
 
     private ConsumerConfigCache() {

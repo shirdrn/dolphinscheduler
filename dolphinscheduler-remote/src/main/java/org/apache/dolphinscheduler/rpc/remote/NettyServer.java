@@ -44,43 +44,15 @@ import io.netty.handler.logging.LogLevel;
 import io.netty.handler.logging.LoggingHandler;
 import io.netty.handler.timeout.IdleStateHandler;
 
-/**
- * NettyServer
- */
 public class NettyServer {
 
     private static final Logger logger = LoggerFactory.getLogger(NettyServer.class);
-
-    /**
-     * boss group
-     */
     private final EventLoopGroup bossGroup;
-
-    /**
-     * worker group
-     */
     private final EventLoopGroup workGroup;
-
-    /**
-     * server config
-     */
     private final NettyServerConfig serverConfig;
-
-    /**
-     * server bootstrap
-     */
     private final ServerBootstrap serverBootstrap = new ServerBootstrap();
-
-    /**
-     * started flag
-     */
     private final AtomicBoolean isStarted = new AtomicBoolean(false);
 
-    /**
-     * server init
-     *
-     * @param serverConfig server config
-     */
     public NettyServer(final NettyServerConfig serverConfig) {
         this.serverConfig = serverConfig;
         if (NettyUtils.useEpoll()) {
@@ -123,9 +95,6 @@ public class NettyServer {
         this.start();
     }
 
-    /**
-     * server start
-     */
     public void start() {
         if (isStarted.compareAndSet(false, true)) {
             this.serverBootstrap
@@ -163,11 +132,6 @@ public class NettyServer {
         }
     }
 
-    /**
-     * init netty channel
-     *
-     * @param ch socket channel
-     */
     private void initNettyChannel(SocketChannel ch) {
         ch.pipeline()
                 .addLast(new NettyDecoder(RpcRequest.class))

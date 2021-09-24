@@ -23,36 +23,22 @@ import org.apache.dolphinscheduler.remote.command.Command;
 import org.apache.dolphinscheduler.remote.utils.ChannelUtils;
 import org.apache.dolphinscheduler.remote.utils.Host;
 
-/**
- *  callback channel
- */
 public class NettyRemoteChannel {
 
-    /**
-     *  channel
-     */
     private final Channel channel;
-
-    /**
-     *  request unique identification
-     */
     private final long opaque;
-
-    /**
-     * master host
-     */
-    private final Host host;
+    private final Host masterHost;
 
 
     public NettyRemoteChannel(Channel channel, long opaque) {
         this.channel = channel;
-        this.host = ChannelUtils.toAddress(channel);
+        this.masterHost = ChannelUtils.toAddress(channel);
         this.opaque = opaque;
     }
 
     public NettyRemoteChannel(Channel channel) {
         this.channel = channel;
-        this.host = ChannelUtils.toAddress(channel);
+        this.masterHost = ChannelUtils.toAddress(channel);
         this.opaque = -1;
     }
 
@@ -64,8 +50,8 @@ public class NettyRemoteChannel {
         return opaque;
     }
 
-    public Host getHost() {
-        return host;
+    public Host getMasterHost() {
+        return masterHost;
     }
 
     public boolean isActive(){

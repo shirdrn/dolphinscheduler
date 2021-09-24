@@ -21,16 +21,9 @@ import org.apache.dolphinscheduler.common.utils.JSONUtils;
 
 import java.io.Serializable;
 
-/**
- * process host update
- */
 public class HostUpdateCommand implements Serializable {
 
-    /**
-     * task id
-     */
     private int taskInstanceId;
-
     private String processHost;
 
     public int getTaskInstanceId() {
@@ -49,11 +42,6 @@ public class HostUpdateCommand implements Serializable {
         this.processHost = processHost;
     }
 
-    /**
-     * package request command
-     *
-     * @return command
-     */
     public Command convert2Command() {
         Command command = new Command();
         command.setType(CommandType.PROCESS_HOST_UPDATE_REQUST);

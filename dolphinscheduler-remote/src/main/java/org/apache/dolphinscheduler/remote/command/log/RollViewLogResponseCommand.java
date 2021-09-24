@@ -23,14 +23,8 @@ import org.apache.dolphinscheduler.remote.command.CommandType;
 
 import java.io.Serializable;
 
-/**
- *  roll view log response command
- */
 public class RollViewLogResponseCommand implements Serializable {
 
-    /**
-     *  response data
-     */
     private String msg;
 
     public RollViewLogResponseCommand() {
@@ -48,12 +42,6 @@ public class RollViewLogResponseCommand implements Serializable {
         this.msg = msg;
     }
 
-    /**
-     * package response command
-     *
-     * @param opaque request unique identification
-     * @return command
-     */
     public Command convert2Command(long opaque) {
         Command command = new Command(opaque);
         command.setType(CommandType.ROLL_VIEW_LOG_RESPONSE);

@@ -24,7 +24,6 @@ public enum RequestEventType {
 
 
     private Byte type;
-
     private String description;
 
     RequestEventType(Byte type, String description) {

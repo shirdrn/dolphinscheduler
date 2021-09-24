@@ -20,9 +20,6 @@ package org.apache.dolphinscheduler.rpc.client;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
 
-/**
- * RpcRequestTable
- */
 public class RpcRequestTable {
 
     private RpcRequestTable() {

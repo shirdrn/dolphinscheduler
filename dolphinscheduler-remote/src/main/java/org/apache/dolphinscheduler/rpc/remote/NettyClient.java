@@ -53,9 +53,6 @@ import io.netty.handler.logging.LogLevel;
 import io.netty.handler.logging.LoggingHandler;
 import io.netty.handler.timeout.IdleStateHandler;
 
-/**
- * NettyClient
- */
 public class NettyClient {
 
     public static NettyClient getInstance() {
@@ -63,41 +60,16 @@ public class NettyClient {
     }
 
     private static class NettyClientInner {
-
         private static final NettyClient INSTANCE = new NettyClient(new NettyClientConfig());
     }
 
     private final Logger logger = LoggerFactory.getLogger(NettyClient.class);
-
-    /**
-     * worker group
-     */
     private final EventLoopGroup workerGroup;
-
-    /**
-     * client config
-     */
     private final NettyClientConfig clientConfig;
-
-
-    /**
-     * client bootstrap
-     */
     private final Bootstrap bootstrap = new Bootstrap();
-
-    /**
-     * started flag
-     */
     private final AtomicBoolean isStarted = new AtomicBoolean(false);
-
-    /**
-     * channels
-     */
     private final ConcurrentHashMap<Host, Channel> channels = new ConcurrentHashMap(128);
 
-    /**
-     * get channel
-     */
     private Channel getChannel(Host host) {
         Channel channel = channels.get(host);
         if (channel != null && channel.isActive()) {
@@ -106,13 +78,6 @@ public class NettyClient {
         return createChannel(host, true);
     }
 
-    /**
-     * create channel
-     *
-     * @param host host
-     * @param isSync sync flag
-     * @return channel
-     */
     public Channel createChannel(Host host, boolean isSync) {
         ChannelFuture future;
         try {
@@ -133,11 +98,6 @@ public class NettyClient {
         return null;
     }
 
-    /**
-     * client init
-     *
-     * @param clientConfig client config
-     */
     private NettyClient(final NettyClientConfig clientConfig) {
         this.clientConfig = clientConfig;
         if (NettyUtils.useEpoll()) {
@@ -163,9 +123,6 @@ public class NettyClient {
 
     }
 
-    /**
-     * start
-     */
     private void start() {
 
         this.bootstrap
@@ -192,7 +149,6 @@ public class NettyClient {
     }
 
     public RpcResponse sendMsg(Host host, RpcProtocol<RpcRequest> protocol, Boolean async) {
-
         Channel channel = getChannel(host);
         assert channel != null;
         RpcRequest request = protocol.getBody();
@@ -224,9 +180,6 @@ public class NettyClient {
         return result;
     }
 
-    /**
-     * close
-     */
     public void close() {
         if (isStarted.compareAndSet(true, false)) {
             try {
@@ -241,9 +194,6 @@ public class NettyClient {
         }
     }
 
-    /**
-     * close channels
-     */
     private void closeChannels() {
         for (Channel channel : this.channels.values()) {
             channel.close();

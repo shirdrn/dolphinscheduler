@@ -23,14 +23,8 @@ import org.apache.dolphinscheduler.remote.command.CommandType;
 
 import java.io.Serializable;
 
-/**
- *  remove task log request command
- */
 public class RemoveTaskLogRequestCommand implements Serializable {
 
-    /**
-     *  log path
-     */
     private String path;
 
     public RemoveTaskLogRequestCommand() {
@@ -48,11 +42,6 @@ public class RemoveTaskLogRequestCommand implements Serializable {
         this.path = path;
     }
 
-    /**
-     * package request command
-     *
-     * @return command
-     */
     public Command convert2Command() {
         Command command = new Command();
         command.setType(CommandType.REMOVE_TAK_LOG_REQUEST);

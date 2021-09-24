@@ -22,23 +22,14 @@ import org.apache.dolphinscheduler.common.utils.JSONUtils;
 
 import java.io.Serializable;
 
-/**
- * db task final result response command
- */
 public class StateEventChangeCommand implements Serializable {
 
     private String key;
-
     private ExecutionStatus sourceStatus;
-
     private int sourceProcessInstanceId;
-
     private int sourceTaskInstanceId;
-
     private int destProcessInstanceId;
-
     private int destTaskInstanceId;
-
     public StateEventChangeCommand() {
         super();
     }
@@ -46,8 +37,7 @@ public class StateEventChangeCommand implements Serializable {
     public StateEventChangeCommand(int sourceProcessInstanceId, int sourceTaskInstanceId,
                                    ExecutionStatus sourceStatus,
                                    int destProcessInstanceId,
-                                   int destTaskInstanceId
-    ) {
+                                   int destTaskInstanceId) {
         this.key = String.format("%d-%d-%d-%d",
                 sourceProcessInstanceId,
                 sourceTaskInstanceId,
@@ -69,11 +59,6 @@ public class StateEventChangeCommand implements Serializable {
         this.key = key;
     }
 
-    /**
-     * package response command
-     *
-     * @return command
-     */
     public Command convert2Command() {
         Command command = new Command();
         command.setType(CommandType.STATE_EVENT_REQUEST);

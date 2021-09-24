@@ -20,7 +20,6 @@ package org.apache.dolphinscheduler.rpc.protocol;
 public class RpcProtocol<T> {
 
     private MessageHeader msgHeader;
-
     private T body;
 
     public MessageHeader getMsgHeader() {

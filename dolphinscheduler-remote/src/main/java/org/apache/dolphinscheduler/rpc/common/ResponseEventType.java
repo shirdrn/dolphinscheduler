@@ -1,4 +1,5 @@
-package org.apache.dolphinscheduler.rpc.common;/*
+package org.apache.dolphinscheduler.rpc.common;
+/*
  * Licensed to the Apache Software Foundation (ASF) under one or more
  * contributor license agreements.  See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
@@ -21,7 +22,6 @@ public enum ResponseEventType {
     BUSINESS_RSP((byte) 2, "business response");
 
     private Byte type;
-
     private String description;
 
     ResponseEventType(Byte type, String description) {

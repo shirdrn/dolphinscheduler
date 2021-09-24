@@ -63,68 +63,20 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.handler.timeout.IdleStateHandler;
 
-/**
- * remoting netty client
- */
 public class NettyRemotingClient {
 
     private final Logger logger = LoggerFactory.getLogger(NettyRemotingClient.class);
-
-    /**
-     * client bootstrap
-     */
     private final Bootstrap bootstrap = new Bootstrap();
-
-    /**
-     * encoder
-     */
     private final NettyEncoder encoder = new NettyEncoder();
-
-    /**
-     * channels
-     */
     private final ConcurrentHashMap<Host, Channel> channels = new ConcurrentHashMap<>(128);
-
-    /**
-     * started flag
-     */
     private final AtomicBoolean isStarted = new AtomicBoolean(false);
-
-    /**
-     * worker group
-     */
     private final EventLoopGroup workerGroup;
-
-    /**
-     * client config
-     */
     private final NettyClientConfig clientConfig;
-
-    /**
-     * saync semaphore
-     */
     private final Semaphore asyncSemaphore = new Semaphore(200, true);
-
-    /**
-     * callback thread executor
-     */
     private final ExecutorService callbackExecutor;
-
-    /**
-     * client handler
-     */
     private final NettyClientHandler clientHandler;
-
-    /**
-     * response future executor
-     */
     private final ScheduledExecutorService responseFutureExecutor;
 
-    /**
-     * client init
-     *
-     * @param clientConfig client config
-     */
     public NettyRemotingClient(final NettyClientConfig clientConfig) {
         this.clientConfig = clientConfig;
         if (NettyUtils.useEpoll()) {
@@ -146,21 +98,16 @@ public class NettyRemotingClient {
                 }
             });
         }
+
         this.callbackExecutor = new ThreadPoolExecutor(5, 10, 1, TimeUnit.MINUTES,
                 new LinkedBlockingQueue<>(1000), new NamedThreadFactory("CallbackExecutor", 10),
                 new CallerThreadExecutePolicy());
         this.clientHandler = new NettyClientHandler(this, callbackExecutor);
-
         this.responseFutureExecutor = Executors.newSingleThreadScheduledExecutor(new NamedThreadFactory("ResponseFutureExecutor"));
-
         this.start();
     }
 
-    /**
-     * start
-     */
     private void start() {
-
         this.bootstrap
                 .group(this.workerGroup)
                 .channel(NettyUtils.getSocketChannelClass())
@@ -181,14 +128,6 @@ public class NettyRemotingClient {
         isStarted.compareAndSet(false, true);
     }
 
-    /**
-     * async send
-     *
-     * @param host host
-     * @param command command
-     * @param timeoutMillis timeoutMillis
-     * @param invokeCallback callback function
-     */
     public void sendAsync(final Host host, final Command command,
                           final long timeoutMillis,
                           final InvokeCallback invokeCallback) throws InterruptedException, RemotingException {
@@ -196,20 +135,12 @@ public class NettyRemotingClient {
         if (channel == null) {
             throw new RemotingException("network error");
         }
-        /*
-         * request unique identification
-         */
+        // request unique identification
         final long opaque = command.getOpaque();
-        /*
-         *  control concurrency number
-         */
+        // control concurrency number
         boolean acquired = this.asyncSemaphore.tryAcquire(timeoutMillis, TimeUnit.MILLISECONDS);
         if (acquired) {
             final ReleaseSemaphore releaseSemaphore = new ReleaseSemaphore(this.asyncSemaphore);
-
-            /*
-             *  response future
-             */
             final ResponseFuture responseFuture = new ResponseFuture(opaque,
                     timeoutMillis,
                     invokeCallback,
@@ -243,14 +174,6 @@ public class NettyRemotingClient {
         }
     }
 
-    /**
-     * sync send
-     *
-     * @param host host
-     * @param command command
-     * @param timeoutMillis timeoutMillis
-     * @return command
-     */
     public Command sendSync(final Host host, final Command command, final long timeoutMillis) throws InterruptedException, RemotingException {
         final Channel channel = getChannel(host);
         if (channel == null) {
@@ -283,12 +206,6 @@ public class NettyRemotingClient {
         return result;
     }
 
-    /**
-     * send task
-     *
-     * @param host host
-     * @param command command
-     */
     public void send(final Host host, final Command command) throws RemotingException {
         Channel channel = getChannel(host);
         if (channel == null) {
@@ -309,30 +226,14 @@ public class NettyRemotingClient {
         }
     }
 
-    /**
-     * register processor
-     *
-     * @param commandType command type
-     * @param processor processor
-     */
     public void registerProcessor(final CommandType commandType, final NettyRequestProcessor processor) {
         this.registerProcessor(commandType, processor, null);
     }
 
-    /**
-     * register processor
-     *
-     * @param commandType command type
-     * @param processor processor
-     * @param executor thread executor
-     */
     public void registerProcessor(final CommandType commandType, final NettyRequestProcessor processor, final ExecutorService executor) {
         this.clientHandler.registerProcessor(commandType, processor, executor);
     }
 
-    /**
-     * get channel
-     */
     public Channel getChannel(Host host) {
         Channel channel = channels.get(host);
         if (channel != null && channel.isActive()) {
@@ -341,13 +242,6 @@ public class NettyRemotingClient {
         return createChannel(host, true);
     }
 
-    /**
-     * create channel
-     *
-     * @param host host
-     * @param isSync sync flag
-     * @return channel
-     */
     public Channel createChannel(Host host, boolean isSync) {
         ChannelFuture future;
         try {
@@ -368,9 +262,6 @@ public class NettyRemotingClient {
         return null;
     }
 
-    /**
-     * close
-     */
     public void close() {
         if (isStarted.compareAndSet(true, false)) {
             try {
@@ -391,9 +282,6 @@ public class NettyRemotingClient {
         }
     }
 
-    /**
-     * close channels
-     */
     private void closeChannels() {
         for (Channel channel : this.channels.values()) {
             channel.close();
@@ -401,11 +289,6 @@ public class NettyRemotingClient {
         this.channels.clear();
     }
 
-    /**
-     * close channel
-     *
-     * @param host host
-     */
     public void closeChannel(Host host) {
         Channel channel = this.channels.remove(host);
         if (channel != null) {

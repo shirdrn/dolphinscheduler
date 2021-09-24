@@ -17,9 +17,6 @@
 
 package org.apache.dolphinscheduler.rpc.common;
 
-/**
- * AbstractRpcCallBack
- */
 public abstract class AbstractRpcCallBack {
 
     /**

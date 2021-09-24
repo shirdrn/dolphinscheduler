@@ -33,13 +33,9 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.handler.timeout.IdleStateEvent;
 
-/**
- * NettyServerHandler
- */
 public class NettyServerHandler extends ChannelInboundHandlerAdapter {
 
     private static final Logger logger = LoggerFactory.getLogger(NettyServerHandler.class);
-
     private static final ThreadPoolManager threadPoolManager = ThreadPoolManager.INSTANCE;
 
     @Override
@@ -67,24 +63,16 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter {
     private void readHandler(ChannelHandlerContext ctx, RpcProtocol protocol) {
         RpcRequest req = (RpcRequest) protocol.getBody();
         RpcResponse response = new RpcResponse();
-
         response.setStatus((byte) 0);
-
         String classname = req.getClassName();
-
         String methodName = req.getMethodName();
-
         Class<?>[] parameterTypes = req.getParameterTypes();
-
         Object[] arguments = req.getParameters();
         Object result = null;
         try {
             Class serviceClass = ServiceBean.getServiceClass(classname);
-
             Object object = serviceClass.newInstance();
-
             Method method = serviceClass.getMethod(methodName, parameterTypes);
-
             result = method.invoke(object, arguments);
         } catch (Exception e) {
             logger.error("netty server execute error,service name :{} method name :{} ", classname + methodName, e);

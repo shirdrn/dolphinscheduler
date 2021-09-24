@@ -24,7 +24,6 @@ public enum EventType {
     RESPONSE((byte)3,"business response");
 
     private Byte type;
-
     private String description;
 
     EventType(Byte type, String description) {

@@ -26,9 +26,7 @@ import java.io.Serializable;
 public class AlertSendRequestCommand implements Serializable {
 
     private int groupId;
-
     private String title;
-
     private String content;
 
     public int getGroupId() {
@@ -65,11 +63,6 @@ public class AlertSendRequestCommand implements Serializable {
         this.content = content;
     }
 
-    /**
-     * package request command
-     *
-     * @return command
-     */
     public Command convert2Command() {
         Command command = new Command();
         command.setType(CommandType.ALERT_SEND_REQUEST);

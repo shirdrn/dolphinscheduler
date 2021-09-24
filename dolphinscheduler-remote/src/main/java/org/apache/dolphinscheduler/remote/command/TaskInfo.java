@@ -22,93 +22,24 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import java.io.Serializable;
 import java.util.Date;
 
-/**
- *  master/worker task transport
- */
-public class TaskInfo implements Serializable{
+public class TaskInfo implements Serializable {
 
-    /**
-     *  task instance id
-     */
     private Integer taskId;
-
-
-    /**
-     *  task name
-     */
     private String taskName;
-
-    /**
-     *  task start time
-     */
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
     private Date startTime;
-
-    /**
-     *  task type
-     */
     private String taskType;
-
-    /**
-     *  task execute path
-     */
     private String executePath;
-
-    /**
-     *  task json
-     */
     private String taskJson;
-
-
-    /**
-     *  process instance id
-     */
     private Integer processInstanceId;
-
-
-    /**
-     *  process instance schedule time
-     */
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
     private Date scheduleTime;
-
-    /**
-     *  process instance global parameters
-     */
     private String globalParams;
-
-
-    /**
-     *  execute user id
-     */
     private Integer executorId;
-
-
-    /**
-     *  command type if complement
-     */
     private Integer cmdTypeIfComplement;
-
-
-    /**
-     *  tenant code
-     */
     private String tenantCode;
-
-    /**
-     *  task queue
-     */
     private String queue;
-
-
-    /**
-     *  process define id
-     */
     private Integer processDefineId;
-
-    /**
-     *  project id
-     */
     private Integer projectId;
 
     public Integer getTaskId() {

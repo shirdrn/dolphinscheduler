@@ -38,9 +38,6 @@ import net.bytebuddy.implementation.bind.annotation.AllArguments;
 import net.bytebuddy.implementation.bind.annotation.Origin;
 import net.bytebuddy.implementation.bind.annotation.RuntimeType;
 
-/**
- * ConsumerInterceptor
- */
 public class ConsumerInterceptor {
 
     private static final Logger logger = LoggerFactory.getLogger(ConsumerInterceptor.class);

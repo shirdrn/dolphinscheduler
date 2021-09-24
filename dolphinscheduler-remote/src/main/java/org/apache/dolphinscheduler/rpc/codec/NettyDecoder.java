@@ -30,9 +30,6 @@ import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.ByteToMessageDecoder;
 
-/**
- * NettyDecoder
- */
 public class NettyDecoder extends ByteToMessageDecoder {
 
     private Class<?> genericClass;

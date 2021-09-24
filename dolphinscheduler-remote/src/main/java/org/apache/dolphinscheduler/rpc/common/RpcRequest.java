@@ -17,21 +17,13 @@
 
 package org.apache.dolphinscheduler.rpc.common;
 
-/**
- * RpcRequest
- */
 public class RpcRequest {
 
     private String className;
     private String methodName;
     private Class<?>[] parameterTypes;
     private Object[] parameters;
-
-    /**
-     * @see RequestEventType
-     */
     private Byte eventType = RequestEventType.BUSINESS.getType();
-
     private Boolean ack;
 
     public Byte getEventType() {

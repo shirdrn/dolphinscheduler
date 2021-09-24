@@ -47,63 +47,19 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.handler.timeout.IdleStateHandler;
 
-/**
- * remoting netty server
- */
 public class NettyRemotingServer {
 
     private final Logger logger = LoggerFactory.getLogger(NettyRemotingServer.class);
-
-    /**
-     * server bootstrap
-     */
     private final ServerBootstrap serverBootstrap = new ServerBootstrap();
-
-    /**
-     * encoder
-     */
     private final NettyEncoder encoder = new NettyEncoder();
-
-    /**
-     * default executor
-     */
     private final ExecutorService defaultExecutor = Executors.newFixedThreadPool(Constants.CPUS);
-
-    /**
-     * boss group
-     */
     private final EventLoopGroup bossGroup;
-
-    /**
-     * worker group
-     */
     private final EventLoopGroup workGroup;
-
-    /**
-     * server config
-     */
     private final NettyServerConfig serverConfig;
-
-    /**
-     * server handler
-     */
     private final NettyServerHandler serverHandler = new NettyServerHandler(this);
-
-    /**
-     * started flag
-     */
     private final AtomicBoolean isStarted = new AtomicBoolean(false);
-
-    /**
-     * Netty server bind fail message
-     */
     private static final String NETTY_BIND_FAILURE_MSG = "NettyRemotingServer bind %s fail";
 
-    /**
-     * server init
-     *
-     * @param serverConfig server config
-     */
     public NettyRemotingServer(final NettyServerConfig serverConfig) {
         this.serverConfig = serverConfig;
         if (NettyUtils.useEpoll()) {
@@ -145,9 +101,6 @@ public class NettyRemotingServer {
         }
     }
 
-    /**
-     * server start
-     */
     public void start() {
         if (isStarted.compareAndSet(false, true)) {
             this.serverBootstrap
@@ -184,11 +137,6 @@ public class NettyRemotingServer {
         }
     }
 
-    /**
-     * init netty channel
-     *
-     * @param ch socket channel
-     */
     private void initNettyChannel(SocketChannel ch) {
         ch.pipeline()
                 .addLast("encoder", encoder)
@@ -197,32 +145,14 @@ public class NettyRemotingServer {
                 .addLast("handler", serverHandler);
     }
 
-    /**
-     * register processor
-     *
-     * @param commandType command type
-     * @param processor processor
-     */
     public void registerProcessor(final CommandType commandType, final NettyRequestProcessor processor) {
         this.registerProcessor(commandType, processor, null);
     }
 
-    /**
-     * register processor
-     *
-     * @param commandType command type
-     * @param processor processor
-     * @param executor thread executor
-     */
     public void registerProcessor(final CommandType commandType, final NettyRequestProcessor processor, final ExecutorService executor) {
         this.serverHandler.registerProcessor(commandType, processor, executor);
     }
 
-    /**
-     * get default thread executor
-     *
-     * @return thread executor
-     */
     public ExecutorService getDefaultExecutor() {
         return defaultExecutor;
     }

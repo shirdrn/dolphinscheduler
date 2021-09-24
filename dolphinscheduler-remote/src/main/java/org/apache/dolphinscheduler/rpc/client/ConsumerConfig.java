@@ -26,15 +26,10 @@ import org.apache.dolphinscheduler.rpc.common.ConsumerConfigConstants;
 public class ConsumerConfig {
 
     private Class<? extends AbstractRpcCallBack> serviceCallBackClass;
-
     private Class<? extends AbstractRpcCallBack> ackCallBackClass;
-
     private String serviceName;
-
     private Boolean async = ConsumerConfigConstants.DEFAULT_SYNC;
-
     private Boolean callBack = ConsumerConfigConstants.DEFAULT_CALL_BACK;
-
     private Integer retries = ConsumerConfigConstants.DEFAULT_RETRIES;
 
     public Class<? extends AbstractRpcCallBack> getServiceCallBackClass() {

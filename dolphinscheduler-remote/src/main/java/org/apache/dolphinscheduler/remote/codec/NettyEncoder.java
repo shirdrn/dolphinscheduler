@@ -25,19 +25,9 @@ import io.netty.channel.ChannelHandler.Sharable;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToByteEncoder;
 
-/**
- * netty encoder
- */
 @Sharable
 public class NettyEncoder extends MessageToByteEncoder<Command> {
 
-    /**
-     * encode
-     *
-     * @param ctx channel handler context
-     * @param msg command
-     * @param out byte buffer
-     */
     @Override
     protected void encode(ChannelHandlerContext ctx, Command msg, ByteBuf out) throws Exception {
         if (msg == null) {

@@ -21,14 +21,8 @@ import org.apache.dolphinscheduler.common.utils.JSONUtils;
 
 import java.io.Serializable;
 
-/**
- *  execute task request command
- */
 public class TaskExecuteRequestCommand implements Serializable {
 
-    /**
-     *  task execution context
-     */
     private String taskExecutionContext;
 
     public String getTaskExecutionContext() {
@@ -46,11 +40,6 @@ public class TaskExecuteRequestCommand implements Serializable {
         this.taskExecutionContext = taskExecutionContext;
     }
 
-    /**
-     *  package request command
-     *
-     * @return command
-     */
     public Command convert2Command() {
         Command command = new Command();
         command.setType(CommandType.TASK_EXECUTE_REQUEST);

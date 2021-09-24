@@ -18,34 +18,12 @@ package org.apache.dolphinscheduler.remote.command;
 
 import java.io.Serializable;
 
-/**
- *  command header
- */
 public class CommandHeader implements Serializable {
 
-    /**
-     * type
-     */
     private byte type;
-
-    /**
-     * request unique identification
-     */
     private long opaque;
-
-    /**
-     *  context length
-     */
     private int contextLength;
-
-    /**
-     *  context
-     */
     private byte[] context;
-
-    /**
-     *  body length
-     */
     private int bodyLength;
 
     public int getBodyLength() {

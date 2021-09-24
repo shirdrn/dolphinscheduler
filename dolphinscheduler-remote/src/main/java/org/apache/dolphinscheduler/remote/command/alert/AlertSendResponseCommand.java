@@ -27,8 +27,8 @@ import java.util.List;
 public class AlertSendResponseCommand implements Serializable {
 
     /**
-     * true:All alert are successful,
-     * false:As long as one alert fails
+     * true: All alert are successful,
+     * false: As long as one alert fails
      */
     private boolean resStatus;
 
@@ -59,12 +59,6 @@ public class AlertSendResponseCommand implements Serializable {
         this.resResults = resResults;
     }
 
-    /**
-     * package response command
-     *
-     * @param opaque request unique identification
-     * @return command
-     */
     public Command convert2Command(long opaque) {
         Command command = new Command(opaque);
         command.setType(CommandType.ALERT_SEND_RESPONSE);

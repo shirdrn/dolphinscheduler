@@ -24,45 +24,15 @@ import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
-/**
- * execute task request command
- */
 public class TaskExecuteAckCommand implements Serializable {
 
-    /**
-     * taskInstanceId
-     */
     private int taskInstanceId;
-
-    /**
-     * process instance id
-     */
     private int processInstanceId;
-
-    /**
-     * startTime
-     */
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date startTime;
-
-    /**
-     * host
-     */
     private String host;
-
-    /**
-     * status
-     */
     private int status;
-
-    /**
-     * logPath
-     */
     private String logPath;
-
-    /**
-     * executePath
-     */
     private String executePath;
 
     public Date getStartTime() {
@@ -113,17 +83,20 @@ public class TaskExecuteAckCommand implements Serializable {
         this.executePath = executePath;
     }
 
-    /**
-     * package request command
-     *
-     * @return command
-     */
     public Command convert2Command() {
         Command command = new Command();
         command.setType(CommandType.TASK_EXECUTE_ACK);
         byte[] body = JSONUtils.toJsonByteArray(this);
         command.setBody(body);
         return command;
+    }
+
+    public int getProcessInstanceId() {
+        return processInstanceId;
+    }
+
+    public void setProcessInstanceId(int processInstanceId) {
+        this.processInstanceId = processInstanceId;
     }
 
     @Override
@@ -137,13 +110,5 @@ public class TaskExecuteAckCommand implements Serializable {
                 + ", executePath='" + executePath + '\''
                 + ", processInstanceId='" + processInstanceId + '\''
                 + '}';
-    }
-
-    public int getProcessInstanceId() {
-        return processInstanceId;
-    }
-
-    public void setProcessInstanceId(int processInstanceId) {
-        this.processInstanceId = processInstanceId;
     }
 }

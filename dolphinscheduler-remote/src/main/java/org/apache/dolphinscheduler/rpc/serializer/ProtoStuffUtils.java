@@ -25,18 +25,14 @@ import io.protostuff.ProtostuffIOUtil;
 import io.protostuff.Schema;
 import io.protostuff.runtime.RuntimeSchema;
 
-/**
- * ProtoStuffUtils
- */
 public class ProtoStuffUtils {
+
+    private static LinkedBuffer buffer = LinkedBuffer.allocate(LinkedBuffer.DEFAULT_BUFFER_SIZE);
+    private static Map<Class<?>, Schema<?>> schemaCache = new ConcurrentHashMap<>();
 
     private ProtoStuffUtils() {
         throw new IllegalStateException("Utility class");
     }
-
-    private static LinkedBuffer buffer = LinkedBuffer.allocate(LinkedBuffer.DEFAULT_BUFFER_SIZE);
-
-    private static Map<Class<?>, Schema<?>> schemaCache = new ConcurrentHashMap<>();
 
     @SuppressWarnings("unchecked")
     public static <T> byte[] serialize(T obj) {

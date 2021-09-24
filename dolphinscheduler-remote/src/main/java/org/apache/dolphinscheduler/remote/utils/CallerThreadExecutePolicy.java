@@ -23,9 +23,6 @@ import org.slf4j.LoggerFactory;
 import java.util.concurrent.RejectedExecutionHandler;
 import java.util.concurrent.ThreadPoolExecutor;
 
-/**
- * caller thread execute
- */
 public class CallerThreadExecutePolicy implements RejectedExecutionHandler {
 
     private final Logger logger = LoggerFactory.getLogger(CallerThreadExecutePolicy.class);

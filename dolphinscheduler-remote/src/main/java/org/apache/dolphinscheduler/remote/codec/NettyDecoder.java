@@ -31,25 +31,15 @@ import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.ReplayingDecoder;
 
-/**
- * netty decoder
- */
 public class NettyDecoder extends ReplayingDecoder<NettyDecoder.State> {
+
     private static final Logger logger = LoggerFactory.getLogger(NettyDecoder.class);
+    private final CommandHeader commandHeader = new CommandHeader();
 
     public NettyDecoder() {
         super(State.MAGIC);
     }
 
-    private final CommandHeader commandHeader = new CommandHeader();
-
-    /**
-     * decode
-     *
-     * @param ctx channel handler context
-     * @param in byte buffer
-     * @param out out content
-     */
     @Override
     protected void decode(ChannelHandlerContext ctx, ByteBuf in, List<Object> out) throws Exception {
         switch (state()) {
@@ -101,11 +91,6 @@ public class NettyDecoder extends ReplayingDecoder<NettyDecoder.State> {
         }
     }
 
-    /**
-     * get command type
-     *
-     * @param type type
-     */
     private CommandType commandType(byte type) {
         for (CommandType ct : CommandType.values()) {
             if (ct.ordinal() == type) {
@@ -115,20 +100,12 @@ public class NettyDecoder extends ReplayingDecoder<NettyDecoder.State> {
         return null;
     }
 
-    /**
-     * check magic
-     *
-     * @param magic magic
-     */
     private void checkMagic(byte magic) {
         if (magic != Command.MAGIC) {
             throw new IllegalArgumentException("illegal packet [magic]" + magic);
         }
     }
 
-    /**
-     * check version
-     */
     private void checkVersion(byte version) {
         if (version != Command.VERSION) {
             throw new IllegalArgumentException("illegal protocol [version]" + version);

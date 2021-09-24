@@ -29,15 +29,10 @@ import org.reflections.Reflections;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/**
- * ServiceBean find all rpcService
- */
 public class ServiceBean {
 
     private static final Logger logger = LoggerFactory.getLogger(ServiceBean.class);
-
     private static Map<String, Class> serviceMap = new HashMap<>();
-
     private static AtomicBoolean initialized = new AtomicBoolean(false);
 
     private ServiceBean() {

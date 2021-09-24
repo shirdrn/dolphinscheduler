@@ -24,9 +24,7 @@ import java.io.Serializable;
 public class HostUpdateResponseCommand implements Serializable {
 
     private int taskInstanceId;
-
     private String processHost;
-
     private int status;
 
     public HostUpdateResponseCommand(int taskInstanceId, String processHost, int code) {
@@ -59,11 +57,6 @@ public class HostUpdateResponseCommand implements Serializable {
         this.status = status;
     }
 
-    /**
-     * package request command
-     *
-     * @return command
-     */
     public Command convert2Command() {
         Command command = new Command();
         command.setType(CommandType.PROCESS_HOST_UPDATE_REQUST);

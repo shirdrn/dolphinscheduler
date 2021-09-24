@@ -23,24 +23,10 @@ import org.apache.dolphinscheduler.remote.command.CommandType;
 
 import java.io.Serializable;
 
-/**
- *  roll view log request command
- */
 public class RollViewLogRequestCommand implements Serializable {
 
-    /**
-     *  log path
-     */
     private String path;
-
-    /**
-     *  skip line number
-     */
     private int skipLineNum;
-
-    /**
-     *  query line number
-     */
     private int limit;
 
     public RollViewLogRequestCommand() {
@@ -76,11 +62,6 @@ public class RollViewLogRequestCommand implements Serializable {
         this.limit = limit;
     }
 
-    /**
-     * package request command
-     *
-     * @return command
-     */
     public Command convert2Command() {
         Command command = new Command();
         command.setType(CommandType.ROLL_VIEW_LOG_REQUEST);

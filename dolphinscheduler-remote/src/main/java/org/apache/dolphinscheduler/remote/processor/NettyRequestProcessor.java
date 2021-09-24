@@ -19,15 +19,7 @@ package org.apache.dolphinscheduler.remote.processor;
 import io.netty.channel.Channel;
 import org.apache.dolphinscheduler.remote.command.Command;
 
-/**
- *  netty request processor
- */
 public interface NettyRequestProcessor {
 
-    /**
-     *  process logic
-     * @param channel channel
-     * @param command command
-     */
     void process(final Channel channel, final Command command);
 }

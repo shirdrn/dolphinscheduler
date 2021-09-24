@@ -17,19 +17,12 @@
 
 package org.apache.dolphinscheduler.rpc.common;
 
-/**
- * RpcResponse
- */
 public class RpcResponse {
 
     private String requestId;
     private String msg;
     private Object result;
     private Byte status;
-
-    /**
-     * @see ResponseEventType
-     */
     private Byte responseType;
 
     public String getRequestId() {

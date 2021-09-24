@@ -30,46 +30,19 @@ import java.util.concurrent.TimeUnit;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/**
- * response future
- */
 public class ResponseFuture {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ResponseFuture.class);
-
     private static final ConcurrentHashMap<Long, ResponseFuture> FUTURE_TABLE = new ConcurrentHashMap<>(256);
 
-    /**
-     * request unique identification
-     */
     private final long opaque;
-
-    /**
-     * timeout
-     */
     private final long timeoutMillis;
-
-    /**
-     * invokeCallback function
-     */
     private final InvokeCallback invokeCallback;
-
-    /**
-     * releaseSemaphore
-     */
     private final ReleaseSemaphore releaseSemaphore;
-
     private final CountDownLatch latch = new CountDownLatch(1);
-
     private final long beginTimestamp = System.currentTimeMillis();
-
-    /**
-     * response command
-     */
     private Command responseCommand;
-
     private volatile boolean sendOk = true;
-
     private Throwable cause;
 
     public ResponseFuture(long opaque, long timeoutMillis, InvokeCallback invokeCallback, ReleaseSemaphore releaseSemaphore) {
@@ -80,21 +53,11 @@ public class ResponseFuture {
         FUTURE_TABLE.put(opaque, this);
     }
 
-    /**
-     * wait for response
-     *
-     * @return command
-     */
     public Command waitResponse() throws InterruptedException {
         this.latch.await(timeoutMillis, TimeUnit.MILLISECONDS);
         return this.responseCommand;
     }
 
-    /**
-     * put response
-     *
-     * @param responseCommand responseCommand
-     */
     public void putResponse(final Command responseCommand) {
         this.responseCommand = responseCommand;
         this.latch.countDown();
@@ -105,19 +68,11 @@ public class ResponseFuture {
         return FUTURE_TABLE.get(opaque);
     }
 
-    /**
-     * whether timeout
-     *
-     * @return timeout
-     */
     public boolean isTimeout() {
         long diff = System.currentTimeMillis() - this.beginTimestamp;
         return diff > this.timeoutMillis;
     }
 
-    /**
-     * execute invoke callback
-     */
     public void executeInvokeCallback() {
         if (invokeCallback != null) {
             invokeCallback.operationComplete(this);
@@ -164,18 +119,12 @@ public class ResponseFuture {
         return invokeCallback;
     }
 
-    /**
-     * release
-     */
     public void release() {
         if (this.releaseSemaphore != null) {
             this.releaseSemaphore.release();
         }
     }
 
-    /**
-     * scan future table
-     */
     public static void scanFutureTable() {
         final List<ResponseFuture> futureList = new LinkedList<>();
         Iterator<Map.Entry<Long, ResponseFuture>> it = FUTURE_TABLE.entrySet().iterator();

@@ -21,9 +21,6 @@ import org.apache.dolphinscheduler.common.utils.JSONUtils;
 
 import java.io.Serializable;
 
-/**
- * db task final result response command
- */
 public class StateEventResponseCommand implements Serializable {
 
     private String key;
@@ -54,11 +51,6 @@ public class StateEventResponseCommand implements Serializable {
         this.key = key;
     }
 
-    /**
-     * package response command
-     *
-     * @return command
-     */
     public Command convert2Command() {
         Command command = new Command();
         command.setType(CommandType.DB_TASK_RESPONSE);
@@ -74,5 +66,4 @@ public class StateEventResponseCommand implements Serializable {
                 + ", status=" + status
                 + '}';
     }
-
 }

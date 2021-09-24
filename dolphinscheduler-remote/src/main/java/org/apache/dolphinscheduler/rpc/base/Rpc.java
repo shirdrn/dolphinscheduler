@@ -24,16 +24,11 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-/**
- * Rpc
- */
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Rpc {
 
-    /**
-     * number of retries
-     */
+
     int retries() default 3;
 
     boolean async() default false;

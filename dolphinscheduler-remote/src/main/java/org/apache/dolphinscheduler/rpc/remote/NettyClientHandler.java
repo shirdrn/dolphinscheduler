@@ -38,15 +38,11 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.handler.timeout.IdleStateEvent;
 
-/**
- * NettyClientHandler
- */
 @ChannelHandler.Sharable
 public class NettyClientHandler extends ChannelInboundHandlerAdapter {
 
 
     private static final Logger logger = LoggerFactory.getLogger(NettyClientHandler.class);
-
     private static final ThreadPoolManager threadPoolManager = ThreadPoolManager.INSTANCE;
 
     @Override
@@ -57,7 +53,6 @@ public class NettyClientHandler extends ChannelInboundHandlerAdapter {
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) {
         RpcProtocol rpcProtocol = (RpcProtocol) msg;
-
         RpcResponse rsp = (RpcResponse) rpcProtocol.getBody();
         long reqId = rpcProtocol.getMsgHeader().getRequestId();
         RpcRequestCache rpcRequest = RpcRequestTable.get(reqId);

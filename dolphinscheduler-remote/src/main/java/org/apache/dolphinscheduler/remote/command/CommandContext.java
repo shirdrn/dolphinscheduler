@@ -23,9 +23,6 @@ import java.io.Serializable;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-/**
- *  command context
- */
 public class CommandContext implements Serializable {
 
     private Map<String, String> items = new LinkedHashMap<>();

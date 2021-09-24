@@ -24,56 +24,25 @@ import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
-/**
- *  execute task response command
- */
 public class TaskExecuteResponseCommand implements Serializable {
 
+    private int taskInstanceId;
+    private  int processInstanceId;
+    private int status;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    private Date endTime;
+    private int processId;
+    private String appIds;
+    private String varPool;
+
     public TaskExecuteResponseCommand() {
+        super();
     }
 
     public TaskExecuteResponseCommand(int taskInstanceId, int processInstanceId) {
         this.taskInstanceId = taskInstanceId;
         this.processInstanceId = processInstanceId;
     }
-
-    /**
-     *  task instance id
-     */
-    private int taskInstanceId;
-
-    /**
-     * process instance id
-     */
-    private  int processInstanceId;
-
-    /**
-     *  status
-     */
-    private int status;
-
-
-    /**
-     *  end time
-     */
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    private Date endTime;
-
-
-    /**
-     * processId
-     */
-    private int processId;
-
-    /**
-     * appIds
-     */
-    private String appIds;
-
-    /**
-     * varPool string
-     */
-    private String varPool;
 
     public void setVarPool(String varPool) {
         this.varPool = varPool;
@@ -123,16 +92,20 @@ public class TaskExecuteResponseCommand implements Serializable {
         this.appIds = appIds;
     }
 
-    /**
-     * package response command
-     * @return command
-     */
     public Command convert2Command() {
         Command command = new Command();
         command.setType(CommandType.TASK_EXECUTE_RESPONSE);
         byte[] body = JSONUtils.toJsonByteArray(this);
         command.setBody(body);
         return command;
+    }
+
+    public int getProcessInstanceId() {
+        return processInstanceId;
+    }
+
+    public void setProcessInstanceId(int processInstanceId) {
+        this.processInstanceId = processInstanceId;
     }
 
     @Override
@@ -144,13 +117,5 @@ public class TaskExecuteResponseCommand implements Serializable {
                 + ", processId=" + processId
                 + ", appIds='" + appIds + '\''
                 + '}';
-    }
-
-    public int getProcessInstanceId() {
-        return processInstanceId;
-    }
-
-    public void setProcessInstanceId(int processInstanceId) {
-        this.processInstanceId = processInstanceId;
     }
 }

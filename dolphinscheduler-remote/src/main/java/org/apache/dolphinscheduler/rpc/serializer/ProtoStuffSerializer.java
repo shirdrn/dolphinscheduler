@@ -1,4 +1,5 @@
-package org.apache.dolphinscheduler.rpc.serializer;/*
+package org.apache.dolphinscheduler.rpc.serializer;
+/*
  * Licensed to the Apache Software Foundation (ASF) under one or more
  * contributor license agreements.  See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
@@ -26,7 +27,6 @@ import io.protostuff.runtime.RuntimeSchema;
 public class ProtoStuffSerializer implements Serializer {
 
     private static LinkedBuffer buffer = LinkedBuffer.allocate(LinkedBuffer.DEFAULT_BUFFER_SIZE);
-
     private static Map<Class<?>, Schema<?>> schemaCache = new ConcurrentHashMap<>();
 
     @SuppressWarnings("unchecked")

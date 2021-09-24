@@ -19,13 +19,9 @@ package org.apache.dolphinscheduler.rpc.client;
 
 import org.apache.dolphinscheduler.rpc.future.RpcFuture;
 
-/**
- * Rpc Request Cache
- */
 public class RpcRequestCache {
 
     private RpcFuture rpcFuture;
-
     private String serviceName;
 
     public RpcFuture getRpcFuture() {

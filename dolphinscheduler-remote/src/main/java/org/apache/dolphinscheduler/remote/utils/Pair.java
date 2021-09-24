@@ -17,12 +17,6 @@
 
 package org.apache.dolphinscheduler.remote.utils;
 
-/**
- * key value pair
- *
- * @param <L> L generic type
- * @param <R> R generic type
- */
 public class Pair<L, R> {
 
     private L left;

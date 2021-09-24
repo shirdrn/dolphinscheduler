@@ -26,9 +26,13 @@ import java.util.concurrent.atomic.AtomicLong;
 public class Command implements Serializable {
 
     private static final AtomicLong REQUEST_ID = new AtomicLong(1);
-
     public static final byte MAGIC = (byte) 0xbabe;
     public static final byte VERSION = 0;
+    private CommandType type;
+    /** request unique identification */
+    private long opaque;
+    private CommandContext context = new CommandContext();
+    private byte[] body;
 
     public Command(){
         this.opaque = REQUEST_ID.getAndIncrement();
@@ -37,26 +41,6 @@ public class Command implements Serializable {
     public Command(long opaque){
         this.opaque = opaque;
     }
-
-    /**
-     * command type
-     */
-    private CommandType type;
-
-    /**
-     *  request unique identification
-     */
-    private long opaque;
-
-    /**
-     * request context
-     */
-    private CommandContext context = new CommandContext();
-
-    /**
-     *  data body
-     */
-    private byte[] body;
 
     public CommandType getType() {
         return type;

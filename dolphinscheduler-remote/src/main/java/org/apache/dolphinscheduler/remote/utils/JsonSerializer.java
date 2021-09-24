@@ -26,9 +26,6 @@ import org.slf4j.LoggerFactory;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-/**
- * json serialize or deserialize
- */
 public class JsonSerializer {
     private static final ObjectMapper objectMapper = new ObjectMapper();
     private static final Logger logger = LoggerFactory.getLogger(JsonSerializer.class);
@@ -37,13 +34,6 @@ public class JsonSerializer {
 
     }
 
-    /**
-     * serialize to byte
-     *
-     * @param obj object
-     * @param <T> object type
-     * @return byte array
-     */
     public static <T> byte[] serialize(T obj) {
         String json = "";
         try {
@@ -55,13 +45,6 @@ public class JsonSerializer {
         return json.getBytes(Constants.UTF8);
     }
 
-    /**
-     * serialize to string
-     *
-     * @param obj object
-     * @param <T> object type
-     * @return string
-     */
     public static <T> String serializeToString(T obj) {
         String json = "";
         try {
@@ -73,14 +56,6 @@ public class JsonSerializer {
         return json;
     }
 
-    /**
-     * deserialize
-     *
-     * @param src byte array
-     * @param clazz class
-     * @param <T> deserialize type
-     * @return deserialize type
-     */
     public static <T> T deserialize(byte[] src, Class<T> clazz) {
 
         String json = new String(src, StandardCharsets.UTF_8);
