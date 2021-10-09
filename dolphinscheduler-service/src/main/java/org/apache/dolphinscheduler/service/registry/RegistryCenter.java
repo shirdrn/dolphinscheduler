@@ -42,48 +42,25 @@ import org.slf4j.LoggerFactory;
 
 import com.google.common.collect.ImmutableList;
 
-/**
- * All business parties use this class to access the registry
- */
 public class RegistryCenter {
 
     private static final Logger logger = LoggerFactory.getLogger(RegistryCenter.class);
-
     private final AtomicBoolean isStarted = new AtomicBoolean(false);
-
     private Registry registry;
-
     private IStoppable stoppable;
-
-    /**
-     * nodes namespace
-     */
+    /** nodes namespace */
     protected static String NODES;
-
     private RegistryPluginManager registryPluginManager;
-
     protected static final String EMPTY = "";
-
     private static final String REGISTRY_PREFIX = "registry";
-
     private static final String REGISTRY_PLUGIN_BINDING = "registry.plugin.binding";
-
     private static final String REGISTRY_PLUGIN_DIR = "registry.plugin.dir";
-
     private static final String MAVEN_LOCAL_REPOSITORY = "maven.local.repository";
-
     private static final String REGISTRY_PLUGIN_NAME = "plugin.name";
-
-    /**
-     * default registry plugin dir
-     */
+    /** default registry plugin dir */
     private static final String REGISTRY_PLUGIN_PATH = "lib/plugin/registry";
-
     private static final String REGISTRY_CONFIG_FILE_PATH = "/registry.properties";
 
-    /**
-     * init node persist
-     */
     public void init() {
         if (isStarted.compareAndSet(false, true)) {
             PropertyUtils.loadPropertyFile(REGISTRY_CONFIG_FILE_PATH);
@@ -99,22 +76,15 @@ public class RegistryCenter {
 
             registry.init(registryConfig);
             initNodes();
-
         }
     }
 
-    /**
-     * init nodes
-     */
     private void initNodes() {
         persist(REGISTRY_DOLPHINSCHEDULER_MASTERS, EMPTY);
         persist(REGISTRY_DOLPHINSCHEDULER_WORKERS, EMPTY);
         persist(REGISTRY_DOLPHINSCHEDULER_DEAD_SERVERS, EMPTY);
     }
 
-    /**
-     * install registry plugin
-     */
     private void installRegistryPlugin(String registryPluginName) {
         DolphinPluginManagerConfig registryPluginManagerConfig = new DolphinPluginManagerConfig();
         registryPluginManagerConfig.setPlugins(PropertyUtils.getString(REGISTRY_PLUGIN_BINDING));

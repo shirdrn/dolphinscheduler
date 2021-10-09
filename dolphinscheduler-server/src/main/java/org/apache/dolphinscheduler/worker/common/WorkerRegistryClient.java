@@ -26,7 +26,7 @@ import org.apache.dolphinscheduler.common.IStoppable;
 import org.apache.dolphinscheduler.common.enums.NodeType;
 import org.apache.dolphinscheduler.common.utils.DateUtils;
 import org.apache.dolphinscheduler.common.utils.NetUtils;
-import org.apache.dolphinscheduler.remote.utils.NamedThreadFactory;
+import org.apache.dolphinscheduler.network.utils.NamedThreadFactory;
 import org.apache.dolphinscheduler.registry.HeartBeatTask;
 import org.apache.dolphinscheduler.service.registry.RegistryClient;
 

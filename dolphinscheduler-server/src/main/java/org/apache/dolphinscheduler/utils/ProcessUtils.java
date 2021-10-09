@@ -26,7 +26,7 @@ import org.apache.dolphinscheduler.common.utils.HadoopUtils;
 import org.apache.dolphinscheduler.common.utils.LoggerUtils;
 import org.apache.dolphinscheduler.common.utils.OSUtils;
 import org.apache.dolphinscheduler.common.utils.PropertyUtils;
-import org.apache.dolphinscheduler.remote.utils.Host;
+import org.apache.dolphinscheduler.network.utils.Host;
 import org.apache.dolphinscheduler.entity.TaskExecutionContext;
 import org.apache.dolphinscheduler.service.log.LogClientService;
 

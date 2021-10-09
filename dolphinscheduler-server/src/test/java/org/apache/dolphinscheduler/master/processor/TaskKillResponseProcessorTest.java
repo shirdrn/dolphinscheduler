@@ -17,9 +17,9 @@
 
 package org.apache.dolphinscheduler.master.processor;
 
-import org.apache.dolphinscheduler.remote.command.Command;
-import org.apache.dolphinscheduler.remote.command.CommandType;
-import org.apache.dolphinscheduler.remote.command.TaskKillResponseCommand;
+import org.apache.dolphinscheduler.network.command.Command;
+import org.apache.dolphinscheduler.network.command.CommandType;
+import org.apache.dolphinscheduler.network.command.TaskKillResponseCommand;
 
 import java.util.ArrayList;
 

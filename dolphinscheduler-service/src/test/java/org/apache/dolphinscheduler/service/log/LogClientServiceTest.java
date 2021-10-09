@@ -20,13 +20,13 @@ package org.apache.dolphinscheduler.service.log;
 import org.apache.dolphinscheduler.common.utils.JSONUtils;
 import org.apache.dolphinscheduler.common.utils.LoggerUtils;
 import org.apache.dolphinscheduler.common.utils.NetUtils;
-import org.apache.dolphinscheduler.remote.NettyRemotingClient;
-import org.apache.dolphinscheduler.remote.command.Command;
-import org.apache.dolphinscheduler.remote.command.log.GetLogBytesResponseCommand;
-import org.apache.dolphinscheduler.remote.command.log.RemoveTaskLogResponseCommand;
-import org.apache.dolphinscheduler.remote.command.log.RollViewLogResponseCommand;
-import org.apache.dolphinscheduler.remote.command.log.ViewLogResponseCommand;
-import org.apache.dolphinscheduler.remote.utils.Host;
+import org.apache.dolphinscheduler.network.NettyRpcClient;
+import org.apache.dolphinscheduler.network.command.Command;
+import org.apache.dolphinscheduler.network.command.log.GetLogBytesResponseCommand;
+import org.apache.dolphinscheduler.network.command.log.RemoveTaskLogResponseCommand;
+import org.apache.dolphinscheduler.network.command.log.RollViewLogResponseCommand;
+import org.apache.dolphinscheduler.network.command.log.ViewLogResponseCommand;
+import org.apache.dolphinscheduler.network.utils.Host;
 
 import java.nio.charset.StandardCharsets;
 
@@ -40,7 +40,7 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({LogClientService.class, NetUtils.class, LoggerUtils.class, NettyRemotingClient.class})
+@PrepareForTest({LogClientService.class, NetUtils.class, LoggerUtils.class, NettyRpcClient.class})
 public class LogClientServiceTest {
 
     @Test
@@ -68,8 +68,8 @@ public class LogClientServiceTest {
         PowerMockito.mockStatic(NetUtils.class);
         PowerMockito.when(NetUtils.getHost()).thenReturn(localMachine + "1");
 
-        NettyRemotingClient remotingClient = PowerMockito.mock(NettyRemotingClient.class);
-        PowerMockito.whenNew(NettyRemotingClient.class).withAnyArguments().thenReturn(remotingClient);
+        NettyRpcClient remotingClient = PowerMockito.mock(NettyRpcClient.class);
+        PowerMockito.whenNew(NettyRpcClient.class).withAnyArguments().thenReturn(remotingClient);
 
         Command command = new Command();
         command.setBody(JSONUtils.toJsonString(new ViewLogResponseCommand("")).getBytes(StandardCharsets.UTF_8));
@@ -82,8 +82,8 @@ public class LogClientServiceTest {
 
     @Test(expected = None.class)
     public void testClose() throws Exception {
-        NettyRemotingClient remotingClient = PowerMockito.mock(NettyRemotingClient.class);
-        PowerMockito.whenNew(NettyRemotingClient.class).withAnyArguments().thenReturn(remotingClient);
+        NettyRpcClient remotingClient = PowerMockito.mock(NettyRpcClient.class);
+        PowerMockito.whenNew(NettyRpcClient.class).withAnyArguments().thenReturn(remotingClient);
         PowerMockito.doNothing().when(remotingClient).close();
 
         LogClientService logClientService = new LogClientService();
@@ -92,8 +92,8 @@ public class LogClientServiceTest {
 
     @Test
     public void testRollViewLog() throws Exception {
-        NettyRemotingClient remotingClient = PowerMockito.mock(NettyRemotingClient.class);
-        PowerMockito.whenNew(NettyRemotingClient.class).withAnyArguments().thenReturn(remotingClient);
+        NettyRpcClient remotingClient = PowerMockito.mock(NettyRpcClient.class);
+        PowerMockito.whenNew(NettyRpcClient.class).withAnyArguments().thenReturn(remotingClient);
 
         Command command = new Command();
         command.setBody(JSONUtils.toJsonByteArray(new RollViewLogResponseCommand("success")));
@@ -107,8 +107,8 @@ public class LogClientServiceTest {
 
     @Test
     public void testGetLogBytes() throws Exception {
-        NettyRemotingClient remotingClient = PowerMockito.mock(NettyRemotingClient.class);
-        PowerMockito.whenNew(NettyRemotingClient.class).withAnyArguments().thenReturn(remotingClient);
+        NettyRpcClient remotingClient = PowerMockito.mock(NettyRpcClient.class);
+        PowerMockito.whenNew(NettyRpcClient.class).withAnyArguments().thenReturn(remotingClient);
 
         Command command = new Command();
         command.setBody(JSONUtils.toJsonByteArray(new GetLogBytesResponseCommand("log".getBytes(StandardCharsets.UTF_8))));
@@ -122,8 +122,8 @@ public class LogClientServiceTest {
 
     @Test
     public void testRemoveTaskLog() throws Exception {
-        NettyRemotingClient remotingClient = PowerMockito.mock(NettyRemotingClient.class);
-        PowerMockito.whenNew(NettyRemotingClient.class).withAnyArguments().thenReturn(remotingClient);
+        NettyRpcClient remotingClient = PowerMockito.mock(NettyRpcClient.class);
+        PowerMockito.whenNew(NettyRpcClient.class).withAnyArguments().thenReturn(remotingClient);
 
         Command command = new Command();
         command.setBody(JSONUtils.toJsonByteArray(new RemoveTaskLogResponseCommand(true)));

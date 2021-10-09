@@ -17,8 +17,8 @@
 
 package org.apache.dolphinscheduler.master.dispatch.host.assign;
 
-import org.apache.dolphinscheduler.remote.utils.Constants;
-import org.apache.dolphinscheduler.remote.utils.Host;
+import org.apache.dolphinscheduler.network.utils.Constants;
+import org.apache.dolphinscheduler.network.utils.Host;
 
 public class HostWeight {
 

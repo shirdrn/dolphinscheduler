@@ -19,11 +19,11 @@ package org.apache.dolphinscheduler.master.dispatch.executor;
 
 import org.apache.dolphinscheduler.common.thread.ThreadUtils;
 import org.apache.dolphinscheduler.master.common.ExecutionContext;
-import org.apache.dolphinscheduler.remote.NettyRemotingClient;
-import org.apache.dolphinscheduler.remote.command.Command;
-import org.apache.dolphinscheduler.remote.command.CommandType;
-import org.apache.dolphinscheduler.remote.config.NettyClientConfig;
-import org.apache.dolphinscheduler.remote.utils.Host;
+import org.apache.dolphinscheduler.network.NettyRpcClient;
+import org.apache.dolphinscheduler.network.command.Command;
+import org.apache.dolphinscheduler.network.command.CommandType;
+import org.apache.dolphinscheduler.network.config.NettyClientConfig;
+import org.apache.dolphinscheduler.network.utils.Host;
 import org.apache.dolphinscheduler.master.dispatch.ExecutorType;
 import org.apache.dolphinscheduler.master.common.ExecuteException;
 import org.apache.dolphinscheduler.master.processor.TaskAckProcessor;
@@ -51,19 +51,19 @@ public class NettyExecutorManager extends AbstractExecutorManager<Boolean>{
     private final Logger logger = LoggerFactory.getLogger(NettyExecutorManager.class);
     @Autowired
     private ServerNodeManager serverNodeManager;
-    private final NettyRemotingClient nettyRemotingClient;
+    private final NettyRpcClient nettyRpcClient;
 
     public NettyExecutorManager(){
         final NettyClientConfig clientConfig = new NettyClientConfig();
-        this.nettyRemotingClient = new NettyRemotingClient(clientConfig);
+        this.nettyRpcClient = new NettyRpcClient(clientConfig);
     }
 
     @PostConstruct
     public void init(){
         // register several processors
-        this.nettyRemotingClient.registerProcessor(CommandType.TASK_EXECUTE_RESPONSE, new TaskResponseProcessor());
-        this.nettyRemotingClient.registerProcessor(CommandType.TASK_EXECUTE_ACK, new TaskAckProcessor());
-        this.nettyRemotingClient.registerProcessor(CommandType.TASK_KILL_RESPONSE, new TaskKillResponseProcessor());
+        this.nettyRpcClient.registerProcessor(CommandType.TASK_EXECUTE_RESPONSE, new TaskResponseProcessor());
+        this.nettyRpcClient.registerProcessor(CommandType.TASK_EXECUTE_ACK, new TaskAckProcessor());
+        this.nettyRpcClient.registerProcessor(CommandType.TASK_KILL_RESPONSE, new TaskKillResponseProcessor());
     }
 
     @Override
@@ -110,7 +110,7 @@ public class NettyExecutorManager extends AbstractExecutorManager<Boolean>{
         boolean success = false;
         do {
             try {
-                nettyRemotingClient.send(host, command);
+                nettyRpcClient.send(host, command);
                 success = true;
             } catch (Exception ex) {
                 logger.error(String.format("send command : %s to %s error", command, host), ex);
@@ -140,7 +140,7 @@ public class NettyExecutorManager extends AbstractExecutorManager<Boolean>{
         return nodes;
     }
 
-    public NettyRemotingClient getNettyRemotingClient() {
-        return nettyRemotingClient;
+    public NettyRpcClient getNettyRemotingClient() {
+        return nettyRpcClient;
     }
 }

@@ -22,7 +22,7 @@ import org.apache.dolphinscheduler.common.enums.ExecutionStatus;
 import org.apache.dolphinscheduler.common.thread.Stopper;
 import org.apache.dolphinscheduler.common.thread.ThreadUtils;
 import org.apache.dolphinscheduler.common.utils.JSONUtils;
-import org.apache.dolphinscheduler.remote.command.TaskExecuteResponseCommand;
+import org.apache.dolphinscheduler.network.command.TaskExecuteResponseCommand;
 import org.apache.dolphinscheduler.entity.TaskExecutionContext;
 import org.apache.dolphinscheduler.worker.common.ResponceCache;
 import org.apache.dolphinscheduler.worker.common.WorkerConfig;

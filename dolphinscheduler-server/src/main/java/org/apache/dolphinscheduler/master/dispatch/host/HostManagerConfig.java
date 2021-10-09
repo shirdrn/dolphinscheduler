@@ -52,7 +52,7 @@ public class HostManagerConfig {
                 hostManager = new LowerWeightHostManager();
                 break;
             default:
-                throw new IllegalArgumentException("unSupport selector " + hostSelector);
+                throw new IllegalArgumentException("unsupported selector " + hostSelector);
         }
         beanFactory.autowireBean(hostManager);
         return hostManager;

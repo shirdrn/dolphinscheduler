@@ -18,11 +18,11 @@
 package org.apache.dolphinscheduler.worker.processor;
 
 import org.apache.dolphinscheduler.common.utils.JSONUtils;
-import org.apache.dolphinscheduler.remote.command.Command;
-import org.apache.dolphinscheduler.remote.command.CommandType;
-import org.apache.dolphinscheduler.remote.command.HostUpdateCommand;
-import org.apache.dolphinscheduler.remote.processor.NettyRemoteChannel;
-import org.apache.dolphinscheduler.remote.processor.NettyRequestProcessor;
+import org.apache.dolphinscheduler.network.command.Command;
+import org.apache.dolphinscheduler.network.command.CommandType;
+import org.apache.dolphinscheduler.network.command.HostUpdateCommand;
+import org.apache.dolphinscheduler.network.processor.NettyRemoteChannel;
+import org.apache.dolphinscheduler.network.processor.NettyRequestProcessor;
 import org.apache.dolphinscheduler.service.bean.SpringApplicationContext;
 
 import org.slf4j.Logger;

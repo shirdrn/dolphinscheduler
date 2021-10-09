@@ -17,11 +17,11 @@
 
 package org.apache.dolphinscheduler.service.alert;
 
-import org.apache.dolphinscheduler.remote.NettyRemotingClient;
-import org.apache.dolphinscheduler.remote.command.Command;
-import org.apache.dolphinscheduler.remote.command.alert.AlertSendRequestCommand;
-import org.apache.dolphinscheduler.remote.command.alert.AlertSendResponseCommand;
-import org.apache.dolphinscheduler.remote.command.alert.AlertSendResponseResult;
+import org.apache.dolphinscheduler.network.NettyRpcClient;
+import org.apache.dolphinscheduler.network.command.Command;
+import org.apache.dolphinscheduler.network.command.alert.AlertSendRequestCommand;
+import org.apache.dolphinscheduler.network.command.alert.AlertSendResponseCommand;
+import org.apache.dolphinscheduler.network.command.alert.AlertSendResponseResult;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,14 +47,14 @@ public class AlertClientServiceTest {
 
     private static final Logger logger = LoggerFactory.getLogger(AlertClientServiceTest.class);
 
-    private NettyRemotingClient client;
+    private NettyRpcClient client;
 
     private AlertClientService alertClient;
 
     @Before
     public void before() throws Exception {
-        client = PowerMockito.mock(NettyRemotingClient.class);
-        PowerMockito.whenNew(NettyRemotingClient.class).withAnyArguments().thenReturn(client);
+        client = PowerMockito.mock(NettyRpcClient.class);
+        PowerMockito.whenNew(NettyRpcClient.class).withAnyArguments().thenReturn(client);
         alertClient = new AlertClientService();
     }
 

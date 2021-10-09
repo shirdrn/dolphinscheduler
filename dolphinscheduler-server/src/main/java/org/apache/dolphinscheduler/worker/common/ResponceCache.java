@@ -18,7 +18,7 @@
 package org.apache.dolphinscheduler.worker.common;
 
 import org.apache.dolphinscheduler.common.enums.Event;
-import org.apache.dolphinscheduler.remote.command.Command;
+import org.apache.dolphinscheduler.network.command.Command;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;

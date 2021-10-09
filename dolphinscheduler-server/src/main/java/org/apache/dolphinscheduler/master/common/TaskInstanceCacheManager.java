@@ -18,8 +18,8 @@
 package org.apache.dolphinscheduler.master.common;
 
 import org.apache.dolphinscheduler.dao.entity.TaskInstance;
-import org.apache.dolphinscheduler.remote.command.TaskExecuteAckCommand;
-import org.apache.dolphinscheduler.remote.command.TaskExecuteResponseCommand;
+import org.apache.dolphinscheduler.network.command.TaskExecuteAckCommand;
+import org.apache.dolphinscheduler.network.command.TaskExecuteResponseCommand;
 import org.apache.dolphinscheduler.entity.TaskExecutionContext;
 
 public interface TaskInstanceCacheManager {

@@ -22,7 +22,7 @@ import org.apache.dolphinscheduler.common.utils.CollectionUtils;
 import org.apache.dolphinscheduler.common.utils.ResInfo;
 import org.apache.dolphinscheduler.master.common.ExecutionContext;
 import org.apache.dolphinscheduler.master.registry.ServerNodeManager;
-import org.apache.dolphinscheduler.remote.utils.Host;
+import org.apache.dolphinscheduler.network.utils.Host;
 import org.apache.dolphinscheduler.master.dispatch.ExecutorType;
 import org.apache.dolphinscheduler.master.dispatch.host.assign.HostWorker;
 

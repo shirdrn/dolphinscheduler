@@ -30,9 +30,9 @@ import org.apache.dolphinscheduler.dao.AlertDao;
 import org.apache.dolphinscheduler.dao.DaoFactory;
 import org.apache.dolphinscheduler.dao.PluginDao;
 import org.apache.dolphinscheduler.dao.entity.Alert;
-import org.apache.dolphinscheduler.remote.NettyRemotingServer;
-import org.apache.dolphinscheduler.remote.command.CommandType;
-import org.apache.dolphinscheduler.remote.config.NettyServerConfig;
+import org.apache.dolphinscheduler.network.NettyRpcServer;
+import org.apache.dolphinscheduler.network.command.CommandType;
+import org.apache.dolphinscheduler.network.config.NettyServerConfig;
 import org.apache.dolphinscheduler.spi.plugin.DolphinPluginLoader;
 import org.apache.dolphinscheduler.spi.plugin.DolphinPluginManagerConfig;
 import org.apache.dolphinscheduler.spi.utils.StringUtils;
@@ -60,7 +60,7 @@ public class AlertServer {
 
     public static final String MAVEN_LOCAL_REPOSITORY = "maven.local.repository";
 
-    private NettyRemotingServer server;
+    private NettyRpcServer server;
 
     private static class AlertServerHolder {
         private static final AlertServer INSTANCE = new AlertServer();
@@ -104,7 +104,7 @@ public class AlertServer {
     private void initRemoteServer() {
         NettyServerConfig serverConfig = new NettyServerConfig();
         serverConfig.setListenPort(ALERT_RPC_PORT);
-        this.server = new NettyRemotingServer(serverConfig);
+        this.server = new NettyRpcServer(serverConfig);
         this.server.registerProcessor(CommandType.ALERT_SEND_REQUEST, new AlertRequestProcessor(alertDao, alertPluginManager));
         this.server.start();
     }

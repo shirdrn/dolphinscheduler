@@ -19,9 +19,9 @@ package org.apache.dolphinscheduler.alert.processor;
 
 import org.apache.dolphinscheduler.alert.plugin.AlertPluginManager;
 import org.apache.dolphinscheduler.dao.AlertDao;
-import org.apache.dolphinscheduler.remote.command.Command;
-import org.apache.dolphinscheduler.remote.command.CommandType;
-import org.apache.dolphinscheduler.remote.command.alert.AlertSendRequestCommand;
+import org.apache.dolphinscheduler.network.command.Command;
+import org.apache.dolphinscheduler.network.command.CommandType;
+import org.apache.dolphinscheduler.network.command.alert.AlertSendRequestCommand;
 
 import org.junit.Assert;
 import org.junit.Before;

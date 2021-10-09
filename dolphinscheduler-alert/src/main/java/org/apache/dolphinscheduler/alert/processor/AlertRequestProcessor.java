@@ -20,12 +20,12 @@ package org.apache.dolphinscheduler.alert.processor;
 import org.apache.dolphinscheduler.alert.plugin.AlertPluginManager;
 import org.apache.dolphinscheduler.alert.runner.AlertSender;
 import org.apache.dolphinscheduler.dao.AlertDao;
-import org.apache.dolphinscheduler.remote.command.Command;
-import org.apache.dolphinscheduler.remote.command.CommandType;
-import org.apache.dolphinscheduler.remote.command.alert.AlertSendRequestCommand;
-import org.apache.dolphinscheduler.remote.command.alert.AlertSendResponseCommand;
-import org.apache.dolphinscheduler.remote.processor.NettyRequestProcessor;
-import org.apache.dolphinscheduler.remote.utils.JsonSerializer;
+import org.apache.dolphinscheduler.network.command.Command;
+import org.apache.dolphinscheduler.network.command.CommandType;
+import org.apache.dolphinscheduler.network.command.alert.AlertSendRequestCommand;
+import org.apache.dolphinscheduler.network.command.alert.AlertSendResponseCommand;
+import org.apache.dolphinscheduler.network.processor.NettyRequestProcessor;
+import org.apache.dolphinscheduler.network.utils.JsonSerializer;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

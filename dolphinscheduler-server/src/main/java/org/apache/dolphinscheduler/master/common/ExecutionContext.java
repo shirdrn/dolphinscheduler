@@ -17,8 +17,8 @@
 package org.apache.dolphinscheduler.master.common;
 
 
-import org.apache.dolphinscheduler.remote.command.Command;
-import org.apache.dolphinscheduler.remote.utils.Host;
+import org.apache.dolphinscheduler.network.command.Command;
+import org.apache.dolphinscheduler.network.utils.Host;
 import org.apache.dolphinscheduler.master.dispatch.ExecutorType;
 
 import static org.apache.dolphinscheduler.common.Constants.DEFAULT_WORKER_GROUP;

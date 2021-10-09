@@ -22,7 +22,7 @@ import org.apache.dolphinscheduler.common.utils.NetUtils;
 import org.apache.dolphinscheduler.dao.entity.ProcessDefinition;
 import org.apache.dolphinscheduler.dao.entity.ProcessInstance;
 import org.apache.dolphinscheduler.dao.entity.TaskInstance;
-import org.apache.dolphinscheduler.remote.utils.Host;
+import org.apache.dolphinscheduler.network.utils.Host;
 import org.apache.dolphinscheduler.builder.TaskExecutionContextBuilder;
 import org.apache.dolphinscheduler.entity.TaskExecutionContext;
 import org.apache.dolphinscheduler.master.common.ExecutionContext;

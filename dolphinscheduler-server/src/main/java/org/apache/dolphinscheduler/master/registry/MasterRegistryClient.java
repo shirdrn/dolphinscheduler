@@ -33,7 +33,7 @@ import org.apache.dolphinscheduler.common.utils.DateUtils;
 import org.apache.dolphinscheduler.common.utils.NetUtils;
 import org.apache.dolphinscheduler.dao.entity.ProcessInstance;
 import org.apache.dolphinscheduler.dao.entity.TaskInstance;
-import org.apache.dolphinscheduler.remote.utils.NamedThreadFactory;
+import org.apache.dolphinscheduler.network.utils.NamedThreadFactory;
 import org.apache.dolphinscheduler.builder.TaskExecutionContextBuilder;
 import org.apache.dolphinscheduler.entity.TaskExecutionContext;
 import org.apache.dolphinscheduler.master.common.MasterConfig;
@@ -62,9 +62,7 @@ import org.springframework.stereotype.Component;
 import com.google.common.collect.Sets;
 
 /**
- * zookeeper master client
- * <p>
- * single instance
+ * Zookeeper client for Master to talk to.
  */
 @Component
 public class MasterRegistryClient {
@@ -82,9 +80,9 @@ public class MasterRegistryClient {
     private String localNodePath;
 
     public void init(ConcurrentHashMap<Integer, WorkflowExecuteThread> processInstanceExecMaps) {
-        this.startTime = DateUtils.dateToString(new Date());
-        this.registryClient = RegistryClient.getInstance();
-        this.heartBeatExecutor = Executors.newSingleThreadScheduledExecutor(new NamedThreadFactory("HeartBeatExecutor"));
+        startTime = DateUtils.dateToString(new Date());
+        registryClient = RegistryClient.getInstance();
+        heartBeatExecutor = Executors.newSingleThreadScheduledExecutor(new NamedThreadFactory("HeartBeatExecutor"));
         this.processInstanceExecMaps = processInstanceExecMaps;
     }
 
@@ -95,7 +93,7 @@ public class MasterRegistryClient {
 
             registryClient.getLock(nodeLock);
             // master registry
-            registry();
+            register();
             String registryPath = getMasterPath();
             registryClient.handleDeadServer(registryPath, NodeType.MASTER, Constants.DELETE_OP);
 
@@ -123,7 +121,7 @@ public class MasterRegistryClient {
     }
 
     public void closeRegistry() {
-        unRegistry();
+        unregister();
     }
 
     public void removeNodePath(String path, NodeType nodeType, boolean failover) {
@@ -185,9 +183,7 @@ public class MasterRegistryClient {
      * @return true if task instance need fail over
      */
     private boolean checkTaskInstanceNeedFailover(TaskInstance taskInstance) {
-
         boolean taskNeedFailover = true;
-
         //now no host will execute this task instance,so no need to failover the task
         if (taskInstance.getHost() == null) {
             return false;
@@ -311,7 +307,7 @@ public class MasterRegistryClient {
         registryClient.releaseLock(registryClient.getMasterLockPath());
     }
 
-    public void registry() {
+    public void register() {
         String address = NetUtils.getAddr(masterConfig.getListenPort());
         localNodePath = getMasterPath();
         int masterHeartbeatInterval = masterConfig.getMasterHeartbeatInterval();
@@ -342,7 +338,7 @@ public class MasterRegistryClient {
         }
     }
 
-    public void unRegistry() {
+    public void unregister() {
         try {
             String address = getLocalAddress();
             String localNodePath = getMasterPath();

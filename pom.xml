@@ -238,7 +238,7 @@
             </dependency>
             <dependency>
                 <groupId>org.apache.dolphinscheduler</groupId>
-                <artifactId>dolphinscheduler-remote</artifactId>
+                <artifactId>dolphinscheduler-network</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
@@ -1216,7 +1216,7 @@
         <module>dolphinscheduler-dao</module>
         <module>dolphinscheduler-alert</module>
         <module>dolphinscheduler-dist</module>
-        <module>dolphinscheduler-remote</module>
+        <module>dolphinscheduler-network</module>
         <module>dolphinscheduler-service</module>
         <module>dolphinscheduler-microbench</module>
         <module>dolphinscheduler-standalone-server</module>

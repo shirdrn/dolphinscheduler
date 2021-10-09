@@ -19,7 +19,7 @@ package org.apache.dolphinscheduler.master.processor;
 
 import org.apache.dolphinscheduler.master.processor.queue.TaskResponseEvent;
 import org.apache.dolphinscheduler.master.processor.queue.TaskResponseService;
-import org.apache.dolphinscheduler.remote.command.TaskExecuteAckCommand;
+import org.apache.dolphinscheduler.network.command.TaskExecuteAckCommand;
 import org.apache.dolphinscheduler.master.common.TaskInstanceCacheManagerImpl;
 import org.apache.dolphinscheduler.service.bean.SpringApplicationContext;
 import org.apache.dolphinscheduler.service.process.ProcessService;

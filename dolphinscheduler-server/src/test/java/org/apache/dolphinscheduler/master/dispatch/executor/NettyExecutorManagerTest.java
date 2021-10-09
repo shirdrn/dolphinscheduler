@@ -25,9 +25,9 @@ import org.apache.dolphinscheduler.dao.entity.TaskInstance;
 import org.apache.dolphinscheduler.master.common.ExecuteException;
 import org.apache.dolphinscheduler.master.common.ExecutionContext;
 import org.apache.dolphinscheduler.master.dispatch.ExecutorType;
-import org.apache.dolphinscheduler.remote.NettyRemotingServer;
-import org.apache.dolphinscheduler.remote.config.NettyServerConfig;
-import org.apache.dolphinscheduler.remote.utils.Host;
+import org.apache.dolphinscheduler.network.NettyRpcServer;
+import org.apache.dolphinscheduler.network.config.NettyServerConfig;
+import org.apache.dolphinscheduler.network.utils.Host;
 import org.apache.dolphinscheduler.builder.TaskExecutionContextBuilder;
 import org.apache.dolphinscheduler.entity.TaskExecutionContext;
 import org.apache.dolphinscheduler.worker.processor.TaskExecuteProcessor;
@@ -54,9 +54,9 @@ public class NettyExecutorManagerTest {
     public void testExecute() throws ExecuteException {
         final NettyServerConfig serverConfig = new NettyServerConfig();
         serverConfig.setListenPort(30000);
-        NettyRemotingServer nettyRemotingServer = new NettyRemotingServer(serverConfig);
-        nettyRemotingServer.registerProcessor(org.apache.dolphinscheduler.remote.command.CommandType.TASK_EXECUTE_REQUEST, new TaskExecuteProcessor());
-        nettyRemotingServer.start();
+        NettyRpcServer nettyRpcServer = new NettyRpcServer(serverConfig);
+        nettyRpcServer.registerProcessor(org.apache.dolphinscheduler.network.command.CommandType.TASK_EXECUTE_REQUEST, new TaskExecuteProcessor());
+        nettyRpcServer.start();
         TaskInstance taskInstance = Mockito.mock(TaskInstance.class);
         ProcessDefinition processDefinition = Mockito.mock(ProcessDefinition.class);
         ProcessInstance processInstance = new ProcessInstance();
@@ -71,7 +71,7 @@ public class NettyExecutorManagerTest {
         executionContext.setHost(Host.of(NetUtils.getAddr(serverConfig.getListenPort())));
         Boolean execute = nettyExecutorManager.execute(executionContext);
         Assert.assertTrue(execute);
-        nettyRemotingServer.close();
+        nettyRpcServer.close();
     }
 
     @Test(expected = ExecuteException.class)

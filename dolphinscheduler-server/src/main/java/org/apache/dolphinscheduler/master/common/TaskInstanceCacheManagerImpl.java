@@ -21,8 +21,8 @@ import static org.apache.dolphinscheduler.common.Constants.CACHE_REFRESH_TIME_MI
 
 import org.apache.dolphinscheduler.common.enums.ExecutionStatus;
 import org.apache.dolphinscheduler.dao.entity.TaskInstance;
-import org.apache.dolphinscheduler.remote.command.TaskExecuteAckCommand;
-import org.apache.dolphinscheduler.remote.command.TaskExecuteResponseCommand;
+import org.apache.dolphinscheduler.network.command.TaskExecuteAckCommand;
+import org.apache.dolphinscheduler.network.command.TaskExecuteResponseCommand;
 import org.apache.dolphinscheduler.entity.TaskExecutionContext;
 import org.apache.dolphinscheduler.service.process.ProcessService;
 

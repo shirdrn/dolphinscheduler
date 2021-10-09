@@ -18,10 +18,10 @@
 package org.apache.dolphinscheduler.master.processor;
 
 import org.apache.dolphinscheduler.common.utils.JSONUtils;
-import org.apache.dolphinscheduler.remote.command.Command;
-import org.apache.dolphinscheduler.remote.command.CommandType;
-import org.apache.dolphinscheduler.remote.command.TaskKillResponseCommand;
-import org.apache.dolphinscheduler.remote.processor.NettyRequestProcessor;
+import org.apache.dolphinscheduler.network.command.Command;
+import org.apache.dolphinscheduler.network.command.CommandType;
+import org.apache.dolphinscheduler.network.command.TaskKillResponseCommand;
+import org.apache.dolphinscheduler.network.processor.NettyRequestProcessor;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

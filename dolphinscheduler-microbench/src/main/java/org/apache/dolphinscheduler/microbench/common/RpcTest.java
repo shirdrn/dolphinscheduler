@@ -18,8 +18,8 @@
 package org.apache.dolphinscheduler.microbench.common;
 
 import org.apache.dolphinscheduler.microbench.base.AbstractBaseBenchmark;
-import org.apache.dolphinscheduler.remote.config.NettyServerConfig;
-import org.apache.dolphinscheduler.remote.utils.Host;
+import org.apache.dolphinscheduler.network.config.NettyServerConfig;
+import org.apache.dolphinscheduler.network.utils.Host;
 import org.apache.dolphinscheduler.rpc.client.IRpcClient;
 import org.apache.dolphinscheduler.rpc.client.RpcClient;
 import org.apache.dolphinscheduler.rpc.remote.NettyClient;

@@ -29,9 +29,9 @@ import org.apache.dolphinscheduler.master.registry.MasterRegistryClient;
 import org.apache.dolphinscheduler.master.runner.EventExecuteService;
 import org.apache.dolphinscheduler.master.runner.MasterSchedulerService;
 import org.apache.dolphinscheduler.master.runner.WorkflowExecuteThread;
-import org.apache.dolphinscheduler.remote.NettyRemotingServer;
-import org.apache.dolphinscheduler.remote.command.CommandType;
-import org.apache.dolphinscheduler.remote.config.NettyServerConfig;
+import org.apache.dolphinscheduler.network.NettyRpcServer;
+import org.apache.dolphinscheduler.network.command.CommandType;
+import org.apache.dolphinscheduler.network.config.NettyServerConfig;
 import org.apache.dolphinscheduler.service.bean.SpringApplicationContext;
 import org.apache.dolphinscheduler.service.quartz.QuartzExecutors;
 
@@ -64,7 +64,7 @@ public class MasterServer implements IStoppable {
     private MasterConfig masterConfig;
     @Autowired
     private SpringApplicationContext springApplicationContext;
-    private NettyRemotingServer nettyRemotingServer;
+    private NettyRpcServer nettyRpcServer;
 
     /**
      * zk master client
@@ -80,33 +80,33 @@ public class MasterServer implements IStoppable {
 
     @PostConstruct
     public void run() {
-        // init remoting server
+        // initialize & start remoting server
         NettyServerConfig serverConfig = new NettyServerConfig();
         serverConfig.setListenPort(masterConfig.getListenPort());
-        this.nettyRemotingServer = new NettyRemotingServer(serverConfig);
+        nettyRpcServer = new NettyRpcServer(serverConfig);
         TaskAckProcessor ackProcessor = new TaskAckProcessor();
         ackProcessor.init(processInstanceExecMaps);
         TaskResponseProcessor taskResponseProcessor = new TaskResponseProcessor();
         taskResponseProcessor.init(processInstanceExecMaps);
         StateEventProcessor stateEventProcessor = new StateEventProcessor();
         stateEventProcessor.init(processInstanceExecMaps);
-        this.nettyRemotingServer.registerProcessor(CommandType.TASK_EXECUTE_RESPONSE, taskResponseProcessor);
-        this.nettyRemotingServer.registerProcessor(CommandType.TASK_EXECUTE_ACK, ackProcessor);
-        this.nettyRemotingServer.registerProcessor(CommandType.TASK_KILL_RESPONSE, new TaskKillResponseProcessor());
-        this.nettyRemotingServer.registerProcessor(CommandType.STATE_EVENT_REQUEST, stateEventProcessor);
-        this.nettyRemotingServer.start();
+        nettyRpcServer.registerProcessor(CommandType.TASK_EXECUTE_RESPONSE, taskResponseProcessor);
+        nettyRpcServer.registerProcessor(CommandType.TASK_EXECUTE_ACK, ackProcessor);
+        nettyRpcServer.registerProcessor(CommandType.TASK_KILL_RESPONSE, new TaskKillResponseProcessor());
+        nettyRpcServer.registerProcessor(CommandType.STATE_EVENT_REQUEST, stateEventProcessor);
+        nettyRpcServer.start();
 
         // self tolerant
-        this.masterRegistryClient.init(this.processInstanceExecMaps);
-        this.masterRegistryClient.start();
-        this.masterRegistryClient.setRegistryStoppable(this);
+        masterRegistryClient.init(this.processInstanceExecMaps);
+        masterRegistryClient.start();
+        masterRegistryClient.setRegistryStoppable(this);
 
-        this.eventExecuteService.init(this.processInstanceExecMaps);
-        this.eventExecuteService.start();
-        // scheduler start
-        this.masterSchedulerService.init(this.processInstanceExecMaps);
+        eventExecuteService.init(this.processInstanceExecMaps);
+        eventExecuteService.start();
+        // start scheduler
+        masterSchedulerService.init(this.processInstanceExecMaps);
 
-        this.masterSchedulerService.start();
+        masterSchedulerService.start();
 
         // start QuartzExecutors
         // what system should do if exception
@@ -149,8 +149,8 @@ public class MasterServer implements IStoppable {
             }
             // close
             this.masterSchedulerService.close();
-            this.nettyRemotingServer.close();
-            this.masterRegistryClient.closeRegistry();
+            nettyRpcServer.close();
+            masterRegistryClient.closeRegistry();
             // close quartz
             try {
                 QuartzExecutors.getInstance().shutdown();

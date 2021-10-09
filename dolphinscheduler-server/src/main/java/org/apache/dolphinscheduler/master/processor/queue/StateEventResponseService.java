@@ -20,7 +20,7 @@ package org.apache.dolphinscheduler.master.processor.queue;
 import org.apache.dolphinscheduler.common.enums.ExecutionStatus;
 import org.apache.dolphinscheduler.common.enums.StateEvent;
 import org.apache.dolphinscheduler.common.thread.Stopper;
-import org.apache.dolphinscheduler.remote.command.StateEventResponseCommand;
+import org.apache.dolphinscheduler.network.command.StateEventResponseCommand;
 import org.apache.dolphinscheduler.master.runner.WorkflowExecuteThread;
 
 import java.util.ArrayList;

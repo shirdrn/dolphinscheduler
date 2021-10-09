@@ -21,11 +21,11 @@ import static org.apache.dolphinscheduler.common.Constants.SLEEP_TIME_MILLIS;
 
 import java.util.concurrent.ConcurrentHashMap;
 
-import org.apache.dolphinscheduler.remote.NettyRemotingClient;
-import org.apache.dolphinscheduler.remote.command.Command;
-import org.apache.dolphinscheduler.remote.command.CommandType;
-import org.apache.dolphinscheduler.remote.config.NettyClientConfig;
-import org.apache.dolphinscheduler.remote.processor.NettyRemoteChannel;
+import org.apache.dolphinscheduler.network.NettyRpcClient;
+import org.apache.dolphinscheduler.network.command.Command;
+import org.apache.dolphinscheduler.network.command.CommandType;
+import org.apache.dolphinscheduler.network.config.NettyClientConfig;
+import org.apache.dolphinscheduler.network.processor.NettyRemoteChannel;
 import org.apache.dolphinscheduler.service.registry.RegistryClient;
 
 import org.slf4j.Logger;
@@ -43,14 +43,14 @@ public class TaskCallbackService {
     private static final int[] RETRY_BACKOFF = {1, 2, 3, 5, 10, 20, 40, 100, 100, 100, 100, 200, 200, 200};
     private static final ConcurrentHashMap<Integer, NettyRemoteChannel> REMOTE_CHANNELS = new ConcurrentHashMap<>();
     private RegistryClient registryClient;
-    private final NettyRemotingClient nettyRemotingClient;
+    private final NettyRpcClient nettyRpcClient;
 
     public TaskCallbackService() {
         this.registryClient = RegistryClient.getInstance();
         final NettyClientConfig clientConfig = new NettyClientConfig();
-        this.nettyRemotingClient = new NettyRemotingClient(clientConfig);
-        this.nettyRemotingClient.registerProcessor(CommandType.DB_TASK_ACK, new DBTaskAckProcessor());
-        this.nettyRemotingClient.registerProcessor(CommandType.DB_TASK_RESPONSE, new DBTaskResponseProcessor());
+        this.nettyRpcClient = new NettyRpcClient(clientConfig);
+        this.nettyRpcClient.registerProcessor(CommandType.DB_TASK_ACK, new DBTaskAckProcessor());
+        this.nettyRpcClient.registerProcessor(CommandType.DB_TASK_RESPONSE, new DBTaskResponseProcessor());
     }
 
     public void addRemoteChannel(int taskInstanceId, NettyRemoteChannel channel) {
@@ -71,7 +71,7 @@ public class TaskCallbackService {
             if (nettyRemoteChannel.isActive()) {
                 return nettyRemoteChannel;
             }
-            newChannel = nettyRemotingClient.getChannel(nettyRemoteChannel.getMasterHost());
+            newChannel = nettyRpcClient.getChannel(nettyRemoteChannel.getMasterHost());
             if (newChannel != null) {
                 return getRemoteChannel(newChannel, nettyRemoteChannel.getOpaque(), taskInstanceId);
             }

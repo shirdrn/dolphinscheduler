@@ -25,7 +25,7 @@ import org.apache.dolphinscheduler.alert.utils.Constants;
 import org.apache.dolphinscheduler.dao.AlertDao;
 import org.apache.dolphinscheduler.dao.DaoFactory;
 import org.apache.dolphinscheduler.dao.PluginDao;
-import org.apache.dolphinscheduler.remote.NettyRemotingServer;
+import org.apache.dolphinscheduler.network.NettyRpcServer;
 import org.apache.dolphinscheduler.spi.alert.AlertChannel;
 
 import java.util.concurrent.ConcurrentHashMap;
@@ -70,8 +70,8 @@ public class AlertServerTest {
         DolphinPluginManagerConfig alertPluginManagerConfig = PowerMockito.mock(DolphinPluginManagerConfig.class);
         PowerMockito.whenNew(DolphinPluginManagerConfig.class).withNoArguments().thenReturn(alertPluginManagerConfig);
 
-        NettyRemotingServer nettyRemotingServer = PowerMockito.mock(NettyRemotingServer.class);
-        PowerMockito.whenNew(NettyRemotingServer.class).withAnyArguments().thenReturn(nettyRemotingServer);
+        NettyRpcServer nettyRpcServer = PowerMockito.mock(NettyRpcServer.class);
+        PowerMockito.whenNew(NettyRpcServer.class).withAnyArguments().thenReturn(nettyRpcServer);
         AlertSender alertSender = PowerMockito.mock(AlertSender.class);
         PowerMockito.whenNew(AlertSender.class).withAnyArguments().thenReturn(alertSender);
 

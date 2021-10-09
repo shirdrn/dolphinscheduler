@@ -19,7 +19,7 @@ package org.apache.dolphinscheduler.master.dispatch.host;
 
 import org.apache.dolphinscheduler.master.common.ExecutionContext;
 import org.apache.dolphinscheduler.master.registry.ServerNodeManager;
-import org.apache.dolphinscheduler.remote.utils.Host;
+import org.apache.dolphinscheduler.network.utils.Host;
 import org.apache.dolphinscheduler.utils.ExecutionContextTestUtils;
 
 import org.apache.commons.lang.StringUtils;

@@ -20,7 +20,7 @@ package org.apache.dolphinscheduler.worker.runner;
 import org.apache.dolphinscheduler.common.thread.Stopper;
 
 import org.apache.dolphinscheduler.common.thread.ThreadUtils;
-import org.apache.dolphinscheduler.remote.command.Command;
+import org.apache.dolphinscheduler.network.command.Command;
 import org.apache.dolphinscheduler.worker.common.ResponceCache;
 import org.apache.dolphinscheduler.worker.processor.TaskCallbackService;
 import org.apache.dolphinscheduler.service.bean.SpringApplicationContext;

@@ -21,9 +21,9 @@ import org.apache.dolphinscheduler.common.Constants;
 import org.apache.dolphinscheduler.common.IStoppable;
 import org.apache.dolphinscheduler.common.enums.NodeType;
 import org.apache.dolphinscheduler.common.thread.Stopper;
-import org.apache.dolphinscheduler.remote.NettyRemotingServer;
-import org.apache.dolphinscheduler.remote.command.CommandType;
-import org.apache.dolphinscheduler.remote.config.NettyServerConfig;
+import org.apache.dolphinscheduler.network.NettyRpcServer;
+import org.apache.dolphinscheduler.network.command.CommandType;
+import org.apache.dolphinscheduler.network.config.NettyServerConfig;
 import org.apache.dolphinscheduler.worker.common.WorkerConfig;
 import org.apache.dolphinscheduler.worker.common.TaskPluginManager;
 import org.apache.dolphinscheduler.worker.processor.DBTaskAckProcessor;
@@ -68,7 +68,7 @@ import com.facebook.presto.jdbc.internal.guava.collect.ImmutableList;
 public class WorkerServer implements IStoppable {
 
     private static final Logger logger = LoggerFactory.getLogger(WorkerServer.class);
-    private NettyRemotingServer nettyRemotingServer;
+    private NettyRpcServer nettyRpcServer;
     @Autowired
     private WorkerRegistryClient workerRegistryClient;
     @Autowired
@@ -92,12 +92,12 @@ public class WorkerServer implements IStoppable {
         // init remoting server
         NettyServerConfig serverConfig = new NettyServerConfig();
         serverConfig.setListenPort(workerConfig.getListenPort());
-        this.nettyRemotingServer = new NettyRemotingServer(serverConfig);
-        this.nettyRemotingServer.registerProcessor(CommandType.TASK_EXECUTE_REQUEST, new TaskExecuteProcessor(alertClientService, taskPluginManager));
-        this.nettyRemotingServer.registerProcessor(CommandType.TASK_KILL_REQUEST, new TaskKillProcessor());
-        this.nettyRemotingServer.registerProcessor(CommandType.DB_TASK_ACK, new DBTaskAckProcessor());
-        this.nettyRemotingServer.registerProcessor(CommandType.DB_TASK_RESPONSE, new DBTaskResponseProcessor());
-        this.nettyRemotingServer.start();
+        this.nettyRpcServer = new NettyRpcServer(serverConfig);
+        this.nettyRpcServer.registerProcessor(CommandType.TASK_EXECUTE_REQUEST, new TaskExecuteProcessor(alertClientService, taskPluginManager));
+        this.nettyRpcServer.registerProcessor(CommandType.TASK_KILL_REQUEST, new TaskKillProcessor());
+        this.nettyRpcServer.registerProcessor(CommandType.DB_TASK_ACK, new DBTaskAckProcessor());
+        this.nettyRpcServer.registerProcessor(CommandType.DB_TASK_RESPONSE, new DBTaskResponseProcessor());
+        this.nettyRpcServer.start();
 
         // worker registry
         try {
@@ -170,7 +170,7 @@ public class WorkerServer implements IStoppable {
             }
 
             // close
-            this.nettyRemotingServer.close();
+            this.nettyRpcServer.close();
             this.workerRegistryClient.unRegistry();
             this.alertClientService.close();
             this.springApplicationContext.close();

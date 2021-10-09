@@ -21,7 +21,7 @@ import java.util.function.Function;
 
 public enum ZookeeperConfiguration {
 
-    NAME_SPACE("namespace", "dolphinscheduler", value -> value),
+    NAMESPACE("namespace", "dolphinscheduler", value -> value),
     SERVERS("servers", null, value -> value),
 
     /**

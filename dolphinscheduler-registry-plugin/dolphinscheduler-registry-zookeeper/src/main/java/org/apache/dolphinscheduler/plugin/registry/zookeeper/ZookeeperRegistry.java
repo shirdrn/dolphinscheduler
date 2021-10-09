@@ -22,7 +22,7 @@ import static org.apache.dolphinscheduler.plugin.registry.zookeeper.ZookeeperCon
 import static org.apache.dolphinscheduler.plugin.registry.zookeeper.ZookeeperConfiguration.CONNECTION_TIMEOUT_MS;
 import static org.apache.dolphinscheduler.plugin.registry.zookeeper.ZookeeperConfiguration.DIGEST;
 import static org.apache.dolphinscheduler.plugin.registry.zookeeper.ZookeeperConfiguration.MAX_RETRIES;
-import static org.apache.dolphinscheduler.plugin.registry.zookeeper.ZookeeperConfiguration.NAME_SPACE;
+import static org.apache.dolphinscheduler.plugin.registry.zookeeper.ZookeeperConfiguration.NAMESPACE;
 import static org.apache.dolphinscheduler.plugin.registry.zookeeper.ZookeeperConfiguration.SERVERS;
 import static org.apache.dolphinscheduler.plugin.registry.zookeeper.ZookeeperConfiguration.SESSION_TIMEOUT_MS;
 
@@ -109,7 +109,7 @@ public class ZookeeperRegistry implements Registry {
         CuratorFrameworkFactory.Builder builder = CuratorFrameworkFactory.builder()
                 .connectString(SERVERS.getParameterValue(registerData.get(SERVERS.getName())))
                 .retryPolicy(buildRetryPolicy(registerData))
-                .namespace(NAME_SPACE.getParameterValue(registerData.get(NAME_SPACE.getName())))
+                .namespace(NAMESPACE.getParameterValue(registerData.get(NAMESPACE.getName())))
                 .sessionTimeoutMs(SESSION_TIMEOUT_MS.getParameterValue(registerData.get(SESSION_TIMEOUT_MS.getName())))
                 .connectionTimeoutMs(CONNECTION_TIMEOUT_MS.getParameterValue(registerData.get(CONNECTION_TIMEOUT_MS.getName())));
 
@@ -118,8 +118,8 @@ public class ZookeeperRegistry implements Registry {
             buildDigest(builder, digest);
         }
         client = builder.build();
-
         client.start();
+
         try {
             if (!client.blockUntilConnected(BLOCK_UNTIL_CONNECTED_WAIT_MS.getParameterValue(registerData.get(BLOCK_UNTIL_CONNECTED_WAIT_MS.getName())), MILLISECONDS)) {
                 client.close();
@@ -215,8 +215,10 @@ public class ZookeeperRegistry implements Registry {
                 update(key, value);
                 return;
             }
-            client.create().creatingParentsIfNeeded().withMode(CreateMode.PERSISTENT).forPath(key, value.getBytes(StandardCharsets.UTF_8));
-
+            client.create()
+                    .creatingParentsIfNeeded()
+                    .withMode(CreateMode.PERSISTENT)
+                    .forPath(key, value.getBytes(StandardCharsets.UTF_8));
         } catch (Exception e) {
             throw new RegistryException("zookeeper persist error", e);
         }
@@ -229,7 +231,10 @@ public class ZookeeperRegistry implements Registry {
                 update(key, value);
                 return;
             }
-            client.create().creatingParentsIfNeeded().withMode(CreateMode.EPHEMERAL).forPath(key, value.getBytes(StandardCharsets.UTF_8));
+            client.create()
+                    .creatingParentsIfNeeded()
+                    .withMode(CreateMode.EPHEMERAL)
+                    .forPath(key, value.getBytes(StandardCharsets.UTF_8));
         } catch (Exception e) {
             throw new RegistryException("zookeeper persist ephemeral error", e);
         }
@@ -242,7 +247,8 @@ public class ZookeeperRegistry implements Registry {
                 return;
             }
             TransactionOp transactionOp = client.transactionOp();
-            client.transaction().forOperations(transactionOp.check().forPath(key), transactionOp.setData().forPath(key, value.getBytes(StandardCharsets.UTF_8)));
+            client.transaction()
+                    .forOperations(transactionOp.check().forPath(key), transactionOp.setData().forPath(key, value.getBytes(StandardCharsets.UTF_8)));
         } catch (Exception e) {
             throw new RegistryException("zookeeper update error", e);
         }

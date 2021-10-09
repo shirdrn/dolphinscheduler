@@ -18,7 +18,7 @@
 package org.apache.dolphinscheduler.master.dispatch.host;
 
 import org.apache.dolphinscheduler.master.common.ExecutionContext;
-import org.apache.dolphinscheduler.remote.utils.Host;
+import org.apache.dolphinscheduler.network.utils.Host;
 
 public interface HostManager {
 

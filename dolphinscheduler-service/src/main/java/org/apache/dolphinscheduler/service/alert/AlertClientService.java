@@ -17,13 +17,13 @@
 
 package org.apache.dolphinscheduler.service.alert;
 
-import org.apache.dolphinscheduler.remote.NettyRemotingClient;
-import org.apache.dolphinscheduler.remote.command.Command;
-import org.apache.dolphinscheduler.remote.command.alert.AlertSendRequestCommand;
-import org.apache.dolphinscheduler.remote.command.alert.AlertSendResponseCommand;
-import org.apache.dolphinscheduler.remote.config.NettyClientConfig;
-import org.apache.dolphinscheduler.remote.utils.Host;
-import org.apache.dolphinscheduler.remote.utils.JsonSerializer;
+import org.apache.dolphinscheduler.network.NettyRpcClient;
+import org.apache.dolphinscheduler.network.command.Command;
+import org.apache.dolphinscheduler.network.command.alert.AlertSendRequestCommand;
+import org.apache.dolphinscheduler.network.command.alert.AlertSendResponseCommand;
+import org.apache.dolphinscheduler.network.config.NettyClientConfig;
+import org.apache.dolphinscheduler.network.utils.Host;
+import org.apache.dolphinscheduler.network.utils.JsonSerializer;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,7 +34,7 @@ public class AlertClientService {
 
     private final NettyClientConfig clientConfig;
 
-    private final NettyRemotingClient client;
+    private final NettyRpcClient client;
 
     private volatile boolean isRunning;
 
@@ -52,7 +52,7 @@ public class AlertClientService {
      */
     public AlertClientService() {
         this.clientConfig = new NettyClientConfig();
-        this.client = new NettyRemotingClient(clientConfig);
+        this.client = new NettyRpcClient(clientConfig);
         this.isRunning = true;
     }
 
@@ -61,7 +61,7 @@ public class AlertClientService {
      */
     public AlertClientService(String host, int port) {
         this.clientConfig = new NettyClientConfig();
-        this.client = new NettyRemotingClient(clientConfig);
+        this.client = new NettyRpcClient(clientConfig);
         this.isRunning = true;
         this.host = host;
         this.port = port;

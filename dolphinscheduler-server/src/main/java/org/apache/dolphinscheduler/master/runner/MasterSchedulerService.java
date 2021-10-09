@@ -29,8 +29,8 @@ import org.apache.dolphinscheduler.master.common.MasterConfig;
 import org.apache.dolphinscheduler.master.dispatch.executor.NettyExecutorManager;
 import org.apache.dolphinscheduler.master.registry.MasterRegistryClient;
 import org.apache.dolphinscheduler.master.registry.ServerNodeManager;
-import org.apache.dolphinscheduler.remote.NettyRemotingClient;
-import org.apache.dolphinscheduler.remote.config.NettyClientConfig;
+import org.apache.dolphinscheduler.network.NettyRpcClient;
+import org.apache.dolphinscheduler.network.config.NettyClientConfig;
 import org.apache.dolphinscheduler.service.alert.ProcessAlertManager;
 import org.apache.dolphinscheduler.service.process.ProcessService;
 
@@ -56,7 +56,7 @@ public class MasterSchedulerService extends Thread {
     private MasterConfig masterConfig;
     @Autowired
     private ProcessAlertManager processAlertManager;
-    private NettyRemotingClient nettyRemotingClient;
+    private NettyRpcClient nettyRpcClient;
     @Autowired
     NettyExecutorManager nettyExecutorManager;
     private ThreadPoolExecutor masterExecService;
@@ -69,7 +69,7 @@ public class MasterSchedulerService extends Thread {
         this.processInstanceExecMaps = processInstanceExecMaps;
         this.masterExecService = (ThreadPoolExecutor) ThreadUtils.newDaemonFixedThreadExecutor("Master-Exec-Thread", masterConfig.getMasterExecThreads());
         NettyClientConfig clientConfig = new NettyClientConfig();
-        this.nettyRemotingClient = new NettyRemotingClient(clientConfig);
+        this.nettyRpcClient = new NettyRpcClient(clientConfig);
 
         stateWheelExecuteThread = new StateWheelExecuteThread(processTimeoutCheckList,
                 taskTimeoutCheckList,
@@ -96,7 +96,7 @@ public class MasterSchedulerService extends Thread {
         if (!terminated) {
             logger.warn("masterExecService shutdown without terminated, increase await time");
         }
-        nettyRemotingClient.close();
+        nettyRpcClient.close();
         logger.info("master schedule service stopped...");
     }
 

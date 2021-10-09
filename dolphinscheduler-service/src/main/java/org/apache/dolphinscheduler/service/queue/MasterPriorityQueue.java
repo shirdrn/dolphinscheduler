@@ -28,16 +28,8 @@ import java.util.concurrent.TimeUnit;
 
 public class MasterPriorityQueue implements TaskPriorityQueue<Server> {
 
-    /**
-     * queue size
-     */
     private static final Integer QUEUE_MAX_SIZE = 20;
-
-    /**
-     * queue
-     */
     private PriorityBlockingQueue<Server> queue = new PriorityBlockingQueue<>(QUEUE_MAX_SIZE, new ServerComparator());
-
     private HashMap<String, Integer> hostIndexMap = new HashMap<>();
 
     @Override
@@ -96,9 +88,6 @@ public class MasterPriorityQueue implements TaskPriorityQueue<Server> {
         return hostIndexMap.get(host);
     }
 
-    /**
-     * server comparator
-     */
     private class ServerComparator implements Comparator<Server> {
         @Override
         public int compare(Server o1, Server o2) {

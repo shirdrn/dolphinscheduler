@@ -100,7 +100,7 @@ public class MasterRegistryClientTest {
 
     @Test
     public void registryTest() {
-        masterRegistryClient.registry();
+        masterRegistryClient.register();
     }
 
     @Test

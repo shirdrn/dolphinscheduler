@@ -20,18 +20,18 @@ package org.apache.dolphinscheduler.service.log;
 import org.apache.dolphinscheduler.common.utils.JSONUtils;
 import org.apache.dolphinscheduler.common.utils.LoggerUtils;
 import org.apache.dolphinscheduler.common.utils.NetUtils;
-import org.apache.dolphinscheduler.remote.NettyRemotingClient;
-import org.apache.dolphinscheduler.remote.command.Command;
-import org.apache.dolphinscheduler.remote.command.log.GetLogBytesRequestCommand;
-import org.apache.dolphinscheduler.remote.command.log.GetLogBytesResponseCommand;
-import org.apache.dolphinscheduler.remote.command.log.RemoveTaskLogRequestCommand;
-import org.apache.dolphinscheduler.remote.command.log.RemoveTaskLogResponseCommand;
-import org.apache.dolphinscheduler.remote.command.log.RollViewLogRequestCommand;
-import org.apache.dolphinscheduler.remote.command.log.RollViewLogResponseCommand;
-import org.apache.dolphinscheduler.remote.command.log.ViewLogRequestCommand;
-import org.apache.dolphinscheduler.remote.command.log.ViewLogResponseCommand;
-import org.apache.dolphinscheduler.remote.config.NettyClientConfig;
-import org.apache.dolphinscheduler.remote.utils.Host;
+import org.apache.dolphinscheduler.network.NettyRpcClient;
+import org.apache.dolphinscheduler.network.command.Command;
+import org.apache.dolphinscheduler.network.command.log.GetLogBytesRequestCommand;
+import org.apache.dolphinscheduler.network.command.log.GetLogBytesResponseCommand;
+import org.apache.dolphinscheduler.network.command.log.RemoveTaskLogRequestCommand;
+import org.apache.dolphinscheduler.network.command.log.RemoveTaskLogResponseCommand;
+import org.apache.dolphinscheduler.network.command.log.RollViewLogRequestCommand;
+import org.apache.dolphinscheduler.network.command.log.RollViewLogResponseCommand;
+import org.apache.dolphinscheduler.network.command.log.ViewLogRequestCommand;
+import org.apache.dolphinscheduler.network.command.log.ViewLogResponseCommand;
+import org.apache.dolphinscheduler.network.config.NettyClientConfig;
+import org.apache.dolphinscheduler.network.utils.Host;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -45,7 +45,7 @@ public class LogClientService implements AutoCloseable {
 
     private final NettyClientConfig clientConfig;
 
-    private final NettyRemotingClient client;
+    private final NettyRpcClient client;
 
     private volatile boolean isRunning;
 
@@ -60,7 +60,7 @@ public class LogClientService implements AutoCloseable {
     public LogClientService() {
         this.clientConfig = new NettyClientConfig();
         this.clientConfig.setWorkerThreads(4);
-        this.client = new NettyRemotingClient(clientConfig);
+        this.client = new NettyRpcClient(clientConfig);
         this.isRunning = true;
     }
 

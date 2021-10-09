@@ -17,7 +17,7 @@
 
 package org.apache.dolphinscheduler.registry;
 
-import static org.apache.dolphinscheduler.remote.utils.Constants.COMMA;
+import static org.apache.dolphinscheduler.network.utils.Constants.COMMA;
 
 import java.util.Date;
 import java.util.Set;
